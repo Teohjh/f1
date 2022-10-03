@@ -10,7 +10,7 @@
     <div class="card mt-4">
         <div class="card-header">
             
-            <h4 class=""><i class="fa fa-cogs" aria-hidden="true" style="color:#303f33"> </i>   Account Setting</h4>
+            <h4 class=""><i class="fa fa-cogs" aria-hidden="true" style="color:#303f34"> </i>   Account Setting</h4>
         </div>
         <div class="card-body">
          
