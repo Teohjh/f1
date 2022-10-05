@@ -107,7 +107,7 @@ class ProductController extends Controller
         $products = Product::find($request->id);
 
         //DB::table('products')->where('id','$request->id')->update(['product_status' =>'Hide']);
-        $products->product_status = $request->get('product_status');
+        $products->product_status = $request->get('product_status') == 'Hide';
         $products->save();
 
         //return view('admin.product.product_list')->with('status',"Product had successful updated.");

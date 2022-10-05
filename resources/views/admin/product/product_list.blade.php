@@ -85,8 +85,9 @@
                     @endif
                     @if ($product->product_status == 'Hide')
                         <input id="product_status" type="checkbox" data-toggle="toggle" data-on="Shown" data-off="Hide">
-                    @endif-->
-
+                    @endif
+                    <input data-id="{{$product->id}}" class="toggle-class" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="Shown" data-off="Hide" {{ $product->product_status ? 'checked' : '' }}> 
+                    -->
                 </td>
             </tr>
             @endforeach
@@ -105,9 +106,35 @@
 
 @push('scripts')
 <script>
-    $(function() {
-    $('product_status').bootstrapToggle();
-  })
-  </script>
+  $(function() { 
 
+$('.toggle-class').change(function() { 
+
+    var product_status = $(this).prop('checked') == true ? 1 : 0;  
+
+    var id = $(this).data('id');  
+
+     console.log(status); 
+
+    $.ajax({ 
+
+        type: "GET", 
+
+        dataType: "json", 
+
+        url: '/admin/product/hide', 
+
+        data: {'product_status': product_status, 'id': id}, 
+
+        success: function(data){ 
+
+          console.log(data.success) 
+
+        } 
+
+    }); 
+
+}) 
+
+}) 
 @endpush

@@ -5,6 +5,9 @@
            
             <!-- Navbar-->
             <ul class="navbar-nav ms-auto me-0 me-md-3 my-2 my-md-0">
+                <li class="nav-item">
+                    <i class="fa fa-list" style="color: beige; margin-top:15px">hhh</i>
+                </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-user fa-fw"></i>{{ Auth::user()->name }}
