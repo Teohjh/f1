@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\DB;
 use App\Models\Product;
 
 class ProductController extends Controller
@@ -51,11 +53,12 @@ class ProductController extends Controller
         return view('admin.product.edit_product', compact('products'));
     }
 
-    public function product_update(Request $request, $id)
+    public function product_update(Request $request)
     {
-        $products = Product::find($id);
+        $products = Product::find($request->id);
 
-        $request->validate([
+        /*
+        $this->validate($request, [
             'product_code' => 'required',
             'product_name' => 'required',
             'product_description' => 'required',
@@ -64,7 +67,7 @@ class ProductController extends Controller
             'product_price' => 'required'
         ]);
 
-        /*
+        
         if($request->hasFile('product_image'))
         {
             $path= 'assets/image/product/'.$products->product_image;
@@ -77,17 +80,18 @@ class ProductController extends Controller
             $filename = time().".".$ext;
             $file->move('assets/image/product/'.$filename);
             $products->product_image = $filename;
-        }
-        */
-        $products->product_code = $request->product_code;
-        $products->product_name = $request->product_name;
-        $products->product_description = $request->product_description;
-        $products->product_image = $request->product_image;
-        $products->product_price = $request->product_price;
-        $products->product_stock_quantity = $request->product_stock_quantity;
-        $products->update();
+        }*/
+        
+        $products->product_code = $request->get('product_code');
+        $products->product_name = $request->get('product_name');
+        $products->product_description = $request->get('product_description');
+        //$products->product_image = $request->get('product_image');
+        $products->product_price = $request->get('product_price');
+        $products->product_stock_quantity = $request->get('product_stock_quantity');
+        $products->save();
 
-        return view('admin.product.product_list')->with('status',"Product had successful updated.");
+        //return view('admin.product.product_list')->with('status',"Product had successful updated.");
+        return redirect()->back();
     }
 
     public function product_search()
@@ -97,4 +101,26 @@ class ProductController extends Controller
 
         return view('admin.product.search_product',compact('products'));
     }
+
+    public function product_update_status_hide(Request $request)
+    {
+        $products = Product::find($request->id);
+
+        //DB::table('products')->where('id','$request->id')->update(['product_status' =>'Hide']);
+        $products->product_status = $request->get('product_status');
+        $products->save();
+
+        //return view('admin.product.product_list')->with('status',"Product had successful updated.");
+        return redirect()->back();
+    }
+
+
+    public function product_update_status_shown($id){
+        $products = Product::find($id);
+
+        $products->update(['product_status' =>'Shown']);
+
+        return view('admin.product.product_list')->with('status',"Product Status had successful updated.");
+    }
+    
 }

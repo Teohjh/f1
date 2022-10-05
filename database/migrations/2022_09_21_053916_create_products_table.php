@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('product_code');
             $table->string('product_name');
             $table->string('product_description');
-            $table->string('product_image');
+            $table->string('product_image')->nullable();
             $table->decimal('product_price',$total = 8, $places = 2);
             $table->integer('product_stock_quantity');
             $table->string('product_status')->nullable()->default('Shown');

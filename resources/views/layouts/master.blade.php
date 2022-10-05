@@ -20,6 +20,9 @@
 
     <!-- Scripts -->
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+    
+    <!-- Bootstrap Toggle-->
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 </head>
 <body class="d-flex flex-column min-vh-100">
 
@@ -43,6 +46,13 @@
     <script src="{{asset('assets/js/bootstrap.bundle.min.js')}}" crossorigin="anonymous"></script>
     <script src="{{asset('assets/js/scripts.css')}}"></script>
     <script src="{{asset('assets/js/main.js')}}"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.1.js" 
+    integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
+
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
+    @stack('scripts')
 
 </body>
 </html>

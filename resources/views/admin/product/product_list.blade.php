@@ -48,8 +48,8 @@
                 <td scope="col">{{$product['product_name']}}</td>
                 <td scope="col">
                     @if ($product->product_stock_quantity <= 10)
-                        <p class="text-danger">{{$product['product_stock_quantity']}}</p>
-                        <p class="text-danger">Low Quantity</p>
+                        <p class="text-danger fw-bold">{{$product['product_stock_quantity']}}</p>
+                        <p class="text-danger fw-bold">Low Quantity</p>
                     @endif
                     @if ($product->product_stock_quantity > 10)
                         {{$product['product_stock_quantity']}}
@@ -68,14 +68,25 @@
                 <a href="{{url('admin/product/edit/'. $product->id)}}" class="btn btn-warning">Edit</a>
                 </td>
                 <td scope="col">
+                   
                     @if ($product->product_status == 'Shown')
-                    <a href="{{url('admin/product/hide/'. $product->id)}}" class="btn btn-danger">Hide</a>
-                    
+                    <form method="POST" action="{{url('admin/product/hide')}}">
+                        @csrf
+                        <button class="btn btn-danger" type="submit" name="product_status" value="Hide">Hide</button>
+                    </form>
                     @endif
                     @if ($product->product_status == 'Hide')
-                    <a href="{{url('admin/product/shown/'. $product->id)}}" class="btn btn-success">Shown</a>
-                    
+                        <button class="btn btn-success">Shown</button>
+                    </form>
                     @endif
+                    <!--
+                    @if ($product->product_status == 'Shown')
+                        <input id="product_status" type="checkbox" data-toggle="toggle" data-on="Shown" data-off="Hide">
+                    @endif
+                    @if ($product->product_status == 'Hide')
+                        <input id="product_status" type="checkbox" data-toggle="toggle" data-on="Shown" data-off="Hide">
+                    @endif-->
+
                 </td>
             </tr>
             @endforeach
@@ -91,3 +102,12 @@
 
 
 @endsection
+
+@push('scripts')
+<script>
+    $(function() {
+    $('product_status').bootstrapToggle();
+  })
+  </script>
+
+@endpush

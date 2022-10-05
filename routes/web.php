@@ -63,8 +63,9 @@ Route::group(['middleware' => 'auth:admin'], function () {
     Route::get('/admin/product/add', [App\Http\Controllers\Admin\ProductController::class, 'product_add']);
     Route::post('/admin/product/add/store', [App\Http\Controllers\Admin\ProductController::class, 'product_store']);
     Route::get('/admin/product/edit/{id}', [App\Http\Controllers\Admin\ProductController::class, 'product_edit']);
-    Route::post('/admin/product/update/status/{id}', [App\Http\Controllers\Admin\ProductController::class, 'product_update_status']);
-    Route::post('/admin/product/update/{id}', [App\Http\Controllers\Admin\ProductController::class, 'product_update'])->name('product_update');
+    Route::post('/admin/product/hide', [App\Http\Controllers\Admin\ProductController::class, 'product_update_status_hide']);
+    Route::post('/admin/product/shown/{id}', [App\Http\Controllers\Admin\ProductController::class, 'product_update_status_shown']);
+    Route::post('/admin/product/edit/update', [App\Http\Controllers\Admin\ProductController::class, 'product_update'])->name('product_update');
     Route::get('/admin/product/search', [App\Http\Controllers\Admin\ProductController::class, 'product_search']);
 
     /*------Order------*/
