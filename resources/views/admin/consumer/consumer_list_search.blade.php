@@ -9,10 +9,12 @@
     <div class="card mt-4">
         <div class="card-header">
             <h4 class="">Consumer List</h4>
-            <form class="form-inline my-2 my-lg-0" type="get" action="{{url('admin/consumer/search')}}">
-                <input class="form-control mr-sm-2" name="query" type="serach" placeholder="Search For Consumer Name"/>
-                <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Search</button>
-            </form>
+            <div class="mb-2">
+                <form class="input-group mb-3" type="get" action="{{url('admin/consumer/search')}}">
+                    <input class="form-control" name="query" type="serach" placeholder="Search For Consumer Name"/>
+                    <button class="btn btn-outline-dark  " type="submit">Search</button>
+                </form>
+            </div>
         </div>
         <div class="card-body">
         

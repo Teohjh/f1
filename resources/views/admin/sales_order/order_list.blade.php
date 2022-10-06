@@ -9,7 +9,12 @@
     <div class="card mt-4">
         <div class="card-header">
             <h3 class="">Order List</h3>
-            
+            <div class="mb-2">
+                <form class="input-group mb-3" type="get" action="{{url('#')}}">
+                    <input class="form-control" name="query" type="serach" placeholder="Search For FB Name"/>
+                    <button class="btn btn-outline-dark  " type="submit">Search</button>
+                </form>
+            </div>
         </div>
         <div class="card-body">
         
