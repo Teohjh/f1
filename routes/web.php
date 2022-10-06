@@ -59,11 +59,11 @@ Route::group(['middleware' => 'auth:admin'], function () {
     Route::get('/admin/dashboard',[App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('admin-dashboard');
 
     /*------Product------*/
-    Route::get('/admin/product', [App\Http\Controllers\Admin\ProductController::class, 'product_list']);
+    Route::get('/admin/product', [App\Http\Controllers\Admin\ProductController::class, 'product_list'])->name('product_list');
     Route::get('/admin/product/add', [App\Http\Controllers\Admin\ProductController::class, 'product_add']);
     Route::post('/admin/product/add/store', [App\Http\Controllers\Admin\ProductController::class, 'product_store']);
     Route::get('/admin/product/edit/{id}', [App\Http\Controllers\Admin\ProductController::class, 'product_edit']);
-    Route::post('/admin/product/hide', [App\Http\Controllers\Admin\ProductController::class, 'product_update_status_hide']);
+    Route::post('/admin/product/hide/{id}', [App\Http\Controllers\Admin\ProductController::class, 'product_update_status_hide']);
     Route::post('/admin/product/shown/{id}', [App\Http\Controllers\Admin\ProductController::class, 'product_update_status_shown']);
     Route::post('/admin/product/edit/update', [App\Http\Controllers\Admin\ProductController::class, 'product_update'])->name('product_update');
     Route::get('/admin/product/search', [App\Http\Controllers\Admin\ProductController::class, 'product_search']);

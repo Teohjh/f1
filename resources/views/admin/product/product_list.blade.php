@@ -9,11 +9,12 @@
     <div class="card mt-4">
         <div class="card-header">
             <h4 class="">Product List</h4>
-            <form class="form-inline my-2 my-lg-0" type="get" action="{{url('admin/product/search')}}">
-                <input class="form-control mr-sm-2" name="query" type="serach" placeholder="Search For Product Name"/>
-                <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Search</button>
-            </form>
-
+            <div class="mb-2">
+                <form class="input-group mb-3" type="get" action="{{url('admin/product/search')}}">
+                    <input class="form-control" name="query" type="serach" placeholder="Search For Product Name"/>
+                    <button class="btn btn-outline-dark  " type="submit">Search</button>
+                </form>
+            </div>
             <a  href="{{url('admin/product/add')}}" class="btn btn-outline-primary openaddmodal float-end">Add Product</a>
         </div>
         <div class="card-body">
@@ -70,24 +71,18 @@
                 <td scope="col">
                    
                     @if ($product->product_status == 'Shown')
-                    <form method="POST" action="{{url('admin/product/hide')}}">
+                    <form method="POST" action="{{url('admin/product/hide/'. $product->id)}}">
                         @csrf
                         <button class="btn btn-danger" type="submit" name="product_status" value="Hide">Hide</button>
                     </form>
                     @endif
                     @if ($product->product_status == 'Hide')
-                        <button class="btn btn-success">Shown</button>
+                    <form method="POST" action="{{url('admin/product/shown/'. $product->id)}}">
+                        @csrf
+                        <button class="btn btn-success" type="submit" name="product_status" value="Shown">Shown</button>
                     </form>
                     @endif
-                    <!--
-                    @if ($product->product_status == 'Shown')
-                        <input id="product_status" type="checkbox" data-toggle="toggle" data-on="Shown" data-off="Hide">
-                    @endif
-                    @if ($product->product_status == 'Hide')
-                        <input id="product_status" type="checkbox" data-toggle="toggle" data-on="Shown" data-off="Hide">
-                    @endif
-                    <input data-id="{{$product->id}}" class="toggle-class" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="Shown" data-off="Hide" {{ $product->product_status ? 'checked' : '' }}> 
-                    -->
+                    
                 </td>
             </tr>
             @endforeach
@@ -106,35 +101,21 @@
 
 @push('scripts')
 <script>
-  $(function() { 
-
-$('.toggle-class').change(function() { 
-
-    var product_status = $(this).prop('checked') == true ? 1 : 0;  
-
-    var id = $(this).data('id');  
-
-     console.log(status); 
-
-    $.ajax({ 
-
-        type: "GET", 
-
-        dataType: "json", 
-
-        url: '/admin/product/hide', 
-
-        data: {'product_status': product_status, 'id': id}, 
-
-        success: function(data){ 
-
-          console.log(data.success) 
-
-        } 
-
+    $(function() { 
+            $('.toggle-class').change(function() { 
+            var status = $(this).prop('checked') == true ? 1 : 0;  
+            var product_id = $(this).data('id');  
+            $.ajax({ 
+     
+                type: "GET", 
+                dataType: "json", 
+                url: '/status/update', 
+                data: {'status': status, 'product_id': product_id}, 
+                success: function(data){ 
+                console.log(data.success) 
+             } 
+          }); 
+       }) 
     }); 
-
-}) 
-
-}) 
+ </script>
 @endpush

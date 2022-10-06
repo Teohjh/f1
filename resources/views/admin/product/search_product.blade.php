@@ -11,8 +11,8 @@
         <div class="card-header">
             <h3 class="">Product List</h3>
             <br>
-            <form class="form-inline my-2 my-lg-0" type="get" action="{{url('admin/product/search')}}">
-                <input class="form-control mr-sm-2" name="query" type="serach" placeholder="Search For Product Name"/>
+            <form class="input-group mb-3" type="get" action="{{url('admin/product/search')}}">
+                <input class="form-control" name="query" type="serach" placeholder="Search For Product Name"/>
                 <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Search</button>
             </form>
             <a  href="{{url('admin/product/add')}}" class="btn btn-outline-primary openaddmodal float-end mb-2 m-2">Add Product</a>

@@ -9,7 +9,10 @@
     <div class="card mt-4">
         <div class="card-header">
             <h3 class=""><i class="fa fa-truck" style="color:#FDA766"></i>  Order Shipping </h3>
-            
+            <form class="input-group mb-3" type="get" action="{{url('#')}}">
+                <input class="form-control mr-sm-2" name="query" type="serach" placeholder="Search For FB Name"/>
+                <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Search</button>
+            </form>
         </div>
         <div class="card-body">
         

@@ -102,25 +102,38 @@ class ProductController extends Controller
         return view('admin.product.search_product',compact('products'));
     }
 
-    public function product_update_status_hide(Request $request)
+    public function product_update_status_hide($id)
     {
-        $products = Product::find($request->id);
+        
+        $products = Product::find($id);
 
-        //DB::table('products')->where('id','$request->id')->update(['product_status' =>'Hide']);
-        $products->product_status = $request->get('product_status') == 'Hide';
-        $products->save();
-
-        //return view('admin.product.product_list')->with('status',"Product had successful updated.");
-        return redirect()->back();
+        if( isset($products) && !is_null($products)) {
+            $products->product_status =  'Hide';
+            $products->save();
+            
+            return redirect()->back();
+        
+        } else {
+            // do the rest part...
+            return view('admin.product.add_product');
+        }
+        
     }
 
 
     public function product_update_status_shown($id){
         $products = Product::find($id);
-
-        $products->update(['product_status' =>'Shown']);
-
-        return view('admin.product.product_list')->with('status',"Product Status had successful updated.");
+ 
+         if( isset($products) && !is_null($products)) {
+             $products->product_status =  'Shown';
+             $products->save();
+             
+             return redirect()->back();
+         
+         } else {
+             // do the rest part...
+             return view('admin.product.add_product');
+         }
     }
     
 }
