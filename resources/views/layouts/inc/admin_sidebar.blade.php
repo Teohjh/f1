@@ -22,6 +22,12 @@
                                 Stock Product List
                             </a>
 
+                            <div class="sb-sidenav-menu-heading">Facebook</div>
+                            <a class="nav-link {{ Request::is('admin/facebook/post') ? 'active':''}}" href="{{url('/admin/facebook/post')}}">
+                                <div class="sb-nav-link-icon"><i class="fa fa-list" aria-hidden="true"></i></div>
+                                Facebook Post List
+                            </a>
+
                             <div class="sb-sidenav-menu-heading">Live Sales</div>
                             <a class="nav-link {{ Request::is('admin/live/setup') ? 'active':''}}" href="{{url('/admin/live/setup')}}">
                                 <div class="sb-nav-link-icon"><i class="fa fa-podcast"></i></div>

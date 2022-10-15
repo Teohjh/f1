@@ -96,7 +96,7 @@ class ProductController extends Controller
 
     public function product_search()
     {
-        $search_text = $_GET['query'];
+        $search_text = $_GET['query_product_name'];
         $products = Product::where('product_name', 'LIKE', '%'.$search_text. '%')->get();
 
         return view('admin.product.search_product',compact('products'));

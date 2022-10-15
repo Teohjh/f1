@@ -20,6 +20,12 @@
 
     <!-- Scripts -->
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+
+    <style>
+        .fb-btn{
+            background-color: blue;
+        }
+    </style>
 </head>
 <body class="d-flex flex-column min-vh-100">
 

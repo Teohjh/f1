@@ -18,7 +18,7 @@ class ConsumerLoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+   // protected $redirectTo = RouteServiceProvider::HOME;
     protected $redirectToConsumer = RouteServiceProvider::CONSUMER_HOME;
 
     public function guard()
@@ -29,6 +29,11 @@ class ConsumerLoginController extends Controller
     public function login()
     {
         return view("consumer.consumer_login");
+    }
+
+    public function order_history()
+    {
+        return view("consumer.consumer_order_history");
     }
 
     public function facebookRedirect(){
@@ -66,7 +71,13 @@ class ConsumerLoginController extends Controller
             //Success
             //$user = auth()->guard('consumer')->user();
             // return redirect()->route('consumer-index');
-            return view("consumer.consumer_index");
+            //$consumer = auth()->guard('consumer')->user();
+            //return view("consumer.consumer_index");
+            if (Auth::guard('consumer')->attempt([$email])) {
+
+                $user = auth()->guard('consumer')->user();
+                return redirect()->intended('/consumer/index');
+            }
 
         }catch(\Exception $e){
             //Authentication failed

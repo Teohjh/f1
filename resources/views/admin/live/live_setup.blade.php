@@ -12,14 +12,14 @@
             <h3 class=""><i class="fa fa-podcast" style="color:red"></i>  Live Setup</h3>
         </div>
         <div class="card-body">
-            <form action="{{ url('#')}}" method="POST">
+            <form action="{{ url('admin/live/setup/successful')}}" method="POST">
                 @csrf
 
                 <div class="mb-3">
-                    <label for="fb_link"> Facebook Live Link </label>
+                    <label for="fb_link"> Facebook Live Embed Code Link </label>
                     <input type="text" class="form-control" placeholder="Enter Live Link"
-                        name="fb_link" value="{{old('fb_link')}}">
-                    <span class="text-danger">@error('fb_link') {{$message}} @enderror </span>
+                        name="embed_code" value="{{old('embed_code')}}">
+                    <span class="text-danger">@error('embed_code') {{$message}} @enderror </span>
                 </div>
 
                 <div class="mb-3">

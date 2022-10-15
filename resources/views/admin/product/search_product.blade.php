@@ -12,7 +12,7 @@
             <h3 class="">Product List</h3>
             <br>
             <form class="input-group mb-3" type="get" action="{{url('admin/product/search')}}">
-                <input class="form-control" name="query" type="serach" placeholder="Search For Product Name"/>
+                <input class="form-control" name="query_product_name" type="serach" placeholder="Search For Product Name"/>
                 <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Search</button>
             </form>
             <a  href="{{url('admin/product/add')}}" class="btn btn-outline-primary openaddmodal float-end mb-2 m-2">Add Product</a>
@@ -45,7 +45,7 @@
                 </td>
                 <td scope="col">{{$product['product_code']}}</td>
                 <td scope="col">
-                    <img src=" {{asset('assets/image/product/' . $product->product_image)}}" width="60px" height="60px">
+                    <img src=" {{asset('assets/image/product/' . $product->product_image)}}" width="100px" height="100px">
                 </td>
                 <td scope="col">{{$product['product_name']}}</td>
                 <td scope="col">{{$product['product_stock_quantity']}}</td>
@@ -62,14 +62,20 @@
                 <a href="{{url('admin/product/edit/'. $product->id)}}" class="btn btn-warning">Edit</a>
                 </td>
                 <td scope="col">
+                   
                     @if ($product->product_status == 'Shown')
-                    <a href="{{url('admin/product/hide/'. $product->id)}}" class="btn btn-danger">Hide</a>
-                    
+                    <form method="POST" action="{{url('admin/product/hide/'. $product->id)}}">
+                        @csrf
+                        <button class="btn btn-danger" type="submit" name="product_status" value="Hide">Hide</button>
+                    </form>
                     @endif
                     @if ($product->product_status == 'Hide')
-                    <a href="{{url('admin/product/shown/'. $product->id)}}" class="btn btn-success">Shown</a>
-                    
+                    <form method="POST" action="{{url('admin/product/shown/'. $product->id)}}">
+                        @csrf
+                        <button class="btn btn-success" type="submit" name="product_status" value="Shown">Shown</button>
+                    </form>
                     @endif
+                    
                 </td>
             </tr>
             @endforeach

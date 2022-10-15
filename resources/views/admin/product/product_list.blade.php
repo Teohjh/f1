@@ -11,7 +11,7 @@
             <h4 class="">Product List</h4>
             <div class="mb-2">
                 <form class="input-group mb-3" type="get" action="{{url('admin/product/search')}}">
-                    <input class="form-control" name="query" type="serach" placeholder="Search For Product Name"/>
+                    <input class="form-control" name="query_product_name" type="serach" placeholder="Search For Product Name"/>
                     <button class="btn btn-outline-dark  " type="submit">Search</button>
                 </form>
             </div>
@@ -19,9 +19,9 @@
         </div>
         <div class="card-body">
         
-        <table id="datatable" class="table table-hover datatable">
+        <table class="table table-hover">
         <thead>
-            <tr>
+            <tr class="align-middle" style="text-align:center">
                 <th scope="col"></th>
                 <th scope="col">Product Code</th>
                 <th scope="col">Product Image</th>
@@ -48,7 +48,10 @@
                 </td>
                 <td scope="col">{{$product['product_name']}}</td>
                 <td scope="col">
-                    @if ($product->product_stock_quantity <= 10)
+                    @if ($product->product_stock_quantity == 0)
+                        <p class="text-danger fw-bold">Out of Stock</p>
+                    @endif
+                    @if ($product->product_stock_quantity <= 10 && $product->product_stock_quantity > 0)
                         <p class="text-danger fw-bold">{{$product['product_stock_quantity']}}</p>
                         <p class="text-danger fw-bold">Low Quantity</p>
                     @endif
@@ -98,24 +101,3 @@
 
 
 @endsection
-
-@push('scripts')
-<script>
-    $(function() { 
-            $('.toggle-class').change(function() { 
-            var status = $(this).prop('checked') == true ? 1 : 0;  
-            var product_id = $(this).data('id');  
-            $.ajax({ 
-     
-                type: "GET", 
-                dataType: "json", 
-                url: '/status/update', 
-                data: {'status': status, 'product_id': product_id}, 
-                success: function(data){ 
-                console.log(data.success) 
-             } 
-          }); 
-       }) 
-    }); 
- </script>
-@endpush

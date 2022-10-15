@@ -28,8 +28,19 @@
             <div class="card">
                 <div class="card-body">
                     <h4>Facebook Account Link</h4>
-                    <label for="fb_id">Facebook Fan Account</label>
-                    <input type="text" class="form-control">
+
+                    <label for="fb_token">Facebook Account Token</label>
+                    <input type="text" class="form-control" value="{{Auth::user()->token ??''}}" readonly>
+                    <a href="{{route('facebook')}}" class="btn btn-info float-end " title="click"> <i class="fa fa-key" aria-hidden="true"></i></a>
+                    
+                    <br>
+
+                    <label for="facebook_page_id">Facebook Page ID</label>
+                    <form class="input-group" action="{{route('facebook_page_id')}}" method="POST">
+                    @csrf
+                        <input type="text" class="form-control facebook_page_id" name="facebook_page_id" placeholder="Enter Facebook Page ID" value="{{Auth::user()->facebook_page_id ??''}}" required>
+                        <button class="btn btn-info" type="submit"><i class="fa fa-upload" aria-hidden="true"></i></button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -37,3 +48,10 @@
 </div>
 
    @endsection
+
+   @push('script')
+    <script>
+        
+    </script>
+        
+    @endpush
