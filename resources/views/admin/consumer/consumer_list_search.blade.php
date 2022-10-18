@@ -35,7 +35,15 @@
                 <td scope="col">{{$consumer['name']}}</td>
                 <td scope="col">{{$consumer['email']}}</td>
             </tr>
+           
             @endforeach
+
+            @if($consumers->isEmpty())
+            <tr class="align-middle" style="text-align:center">
+                <td colspan="4" style="color:#ff0000">No Consumer Found</td>
+            </tr>
+            @endif
+            
         </thead>
         <tbody>
         </tbody>
