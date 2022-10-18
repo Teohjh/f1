@@ -64,31 +64,6 @@ class ProductController extends Controller
     {
         $products = Product::find($request->id);
 
-        /*
-        $this->validate($request, [
-            'product_code' => 'required',
-            'product_name' => 'required',
-            'product_description' => 'required',
-            'product_image' => 'required',
-            'product_stock_quantity'  => 'required',
-            'product_price' => 'required'
-        ]);
-
-        
-        if($request->hasFile('product_image'))
-        {
-            $path= 'assets/image/product/'.$products->product_image;
-            if(File::exits($path))
-            {
-                File::delete($path);
-            }
-            $file = $request->file('product_image');
-            $ext  = $file->getClientOriginalExtension();
-            $filename = time().".".$ext;
-            $file->move('assets/image/product/'.$filename);
-            $products->product_image = $filename;
-        }*/
-
         if($request->hasFile('edit_product_image')){
 
             $old_product_image = 'assets/image/product/'.$products->product_image;
