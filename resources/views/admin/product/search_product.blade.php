@@ -80,7 +80,7 @@
             </tr>
             @endforeach
 
-            @if($product->isEmpty())
+            @if($products->isEmpty())
             <tr class="align-middle" style="text-align:center">
                 <td colspan="9" style="color:#ff0000">No Product Found</td>
             </tr>
