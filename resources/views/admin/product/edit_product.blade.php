@@ -12,7 +12,7 @@
             <h4 class="">Edit Product</h4>
         </div>
         <div class="card-body">
-            <form action="{{url('admin/product/edit/update')}}" method="POST">
+            <form action="{{url('admin/product/edit/update')}}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" class="form-control" name="id" value="{{$products -> id}}">
                 <div class="mb-3">
@@ -38,14 +38,14 @@
 
                 <div class="mb-3">
                 <label for="product_image"> Product Image </label>
+                <br>
                     @if($products->product_image)
                         <img src=" {{asset('assets/image/product/' . $products->product_image)}}" width="110px" height="100px">
                     @endif
-                    <!--
-                     <input type="file" class="form-control" placeholder="Upload Product Image"
-                     name="product_image" value="{{$products -> product_image}}">
-                    <span class="text-danger">@error('product_image') {{$message}} @enderror </span>
-                    !-->
+                    <br>
+                     <input type="file" class="form-control" placeholder="Upload New Product Image"
+                     name="edit_product_image" value="">
+                    <span class="text-danger">@error('edit_product_image') {{$message}} @enderror </span>
                 </div>
 
                 <div class="mb-3">

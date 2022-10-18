@@ -32,30 +32,7 @@ class ProductController extends Controller
             'product_stock_quantity'  => 'required',
             'product_price' => 'required'
         ]);
-/*
-        if($request->hasFile('product_image'))
-        {
-            //get filename with the ectension
-            $file = $request->file('product_image');
 
-            //get just the filename
-            $extension = $file->getClientOriginalName();
-            $fileName = time().'.'.$extension;
-
-            //get the filename to store
-            $destinationPath = public_path().'/assests/image/product/';
-
-            $file->move($destinationPath, $fileName);
-        }
-
-        if($request->hasFile('image')){
-            $image = $request->file('image');
-            $filename = time() . '.' . $image->getClientOriginalExtension();
-            Image::make($image)->resize(300, 300)->save( storage_path('/assests/image/product/' . $filename ) );
-            $person->image = $filename;
-            $person->save();
-          };
-*/
         if($request->hasFile('product_image')){
             $product_image = time().'-'.$request->product_image->getClientOriginalName();
             $request->product_image->move('assets\image\product', $product_image);
@@ -111,11 +88,24 @@ class ProductController extends Controller
             $file->move('assets/image/product/'.$filename);
             $products->product_image = $filename;
         }*/
+
+        if($request->hasFile('edit_product_image')){
+
+            $old_product_image = 'assets/image/product/'.$products->product_image;
+            if(File::exists($old_product_image))
+            {
+                File::delete($old_product_image);
+            }
+            
+            $edit_product_image = time().'-'.$request->edit_product_image->getClientOriginalName();
+            $request->edit_product_image->move('assets\image\product', $edit_product_image);
+            $products->product_image = $edit_product_image;
+            $products->save();
+        }
         
         $products->product_code = $request->get('product_code');
         $products->product_name = $request->get('product_name');
         $products->product_description = $request->get('product_description');
-        //$products->product_image = $request->get('product_image');
         $products->product_price = $request->get('product_price');
         $products->product_stock_quantity = $request->get('product_stock_quantity');
         $products->save();
@@ -144,7 +134,7 @@ class ProductController extends Controller
             return redirect()->back();
         
         } else {
-            // do the rest part...
+            
             return view('admin.product.add_product');
         }
         
@@ -161,7 +151,7 @@ class ProductController extends Controller
              return redirect()->back();
          
          } else {
-             // do the rest part...
+             
              return view('admin.product.add_product');
          }
     }
