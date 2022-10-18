@@ -15,6 +15,11 @@ class LiveController extends Controller
         return view('admin.live.live_setup');
     }
 
+    public function live_list_bid()
+    {
+        return view('admin.live.live_list_bid');
+    }
+
     public function save_live(Request $request)
     {
         $request->validate([

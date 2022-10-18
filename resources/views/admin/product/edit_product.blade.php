@@ -6,10 +6,10 @@
 
 <!-- Page content-->
 <div class="container-fluid px-4">
-
+    
     <div class="card mt-4">
         <div class="card-header">
-            <h4 class="">Edit Product</h4>
+            <h4 class=""> <a href="javascript:history.back()" style="color:#000000"> <i class="fa fa-chevron-circle-left" aria-hidden="true"></i></a>   Edit Product</h4>
         </div>
         <div class="card-body">
             <form action="{{url('admin/product/edit/update')}}" method="POST" enctype="multipart/form-data">

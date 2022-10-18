@@ -37,7 +37,7 @@
                                 <div class="sb-nav-link-icon"><i class="fa fa-cubes"></i></div>
                                 Live Session List
                             </a>
-                            <a class="nav-link {{ Request::is('admin/live/list_bid') ? 'active':''}}" href="{{url('/admin/live/list_bid')}}">
+                            <a class="nav-link {{ Request::is('admin/live/product/list_bid') ? 'active':''}}" href="{{url('/admin/live/product/list_bid')}}">
                                 <div class="sb-nav-link-icon"><i class="fa fa-link"></i></div>
                                 List of bid
                             </a>

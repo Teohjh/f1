@@ -8,7 +8,7 @@
 <div class="container-fluid px-4">
     <div class="card mt-4">
         <div class="card-header">
-            <h4 class="">Consumer List</h4>
+            <h4 class=""> <a href="javascript:history.back()" style="color:#000000"> <i class="fa fa-chevron-circle-left" aria-hidden="true"></i></a>   Consumer List</h4>
             <div class="mb-2">
                 <form class="input-group mb-3" type="get" action="{{url('admin/consumer/search')}}">
                     <input class="form-control" name="query" type="serach" placeholder="Search For Consumer Name"/>

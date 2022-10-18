@@ -87,9 +87,7 @@ Route::group(['middleware' => 'auth:admin'], function () {
     Route::post('/admin/live/setup/successful',[App\Http\Controllers\Admin\LiveController::class, 'save_live']);
     Route::get('/admin/live/{id}',[App\Http\Controllers\Admin\LiveController::class, 'start_live'])->name('start_live');
     Route::get('/admin/live',[App\Http\Controllers\Admin\LiveController::class, 'live_list']);
-    Route::get('/admin/live/list_bid', function () {
-        return view('admin.live.live_list_bid');
-    });
+    Route::get('/admin/live/product/list_bid',[App\Http\Controllers\Admin\LiveController::class, 'live_list_bid']);
 
     /*--------Facebook Post---------*/
     Route::resource('post', 'PostController');

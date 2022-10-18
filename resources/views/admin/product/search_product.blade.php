@@ -9,7 +9,7 @@
     
     <div class="card mt-4">
         <div class="card-header">
-            <h3 class="">Product List</h3>
+            <h3 class=""> <a href="javascript:history.back()" style="color:#000000"> <i class="fa fa-chevron-circle-left" aria-hidden="true"></i></a>   Product List</h3>
             <br>
             <form class="input-group mb-3" type="get" action="{{url('admin/product/search')}}">
                 <input class="form-control" name="query_product_name" type="serach" placeholder="Search For Product Name"/>
