@@ -86,9 +86,7 @@ Route::group(['middleware' => 'auth:admin'], function () {
     Route::get('/admin/live/setup',[App\Http\Controllers\Admin\LiveController::class, 'live_setup']);
     Route::post('/admin/live/setup/successful',[App\Http\Controllers\Admin\LiveController::class, 'save_live']);
     Route::get('/admin/live/{id}',[App\Http\Controllers\Admin\LiveController::class, 'start_live'])->name('start_live');
-    Route::get('/admin/live', function () {
-        return view('admin.live.live_list');
-    });
+    Route::get('/admin/live',[App\Http\Controllers\Admin\LiveController::class, 'live_list']);
     Route::get('/admin/live/list_bid', function () {
         return view('admin.live.live_list_bid');
     });
@@ -96,8 +94,11 @@ Route::group(['middleware' => 'auth:admin'], function () {
     /*--------Facebook Post---------*/
     Route::resource('post', 'PostController');
     Route::get('/admin/facebook/post', [App\Http\Controllers\Admin\PostController::class, 'post_list'])->name('facebook-post');
-    Route::post('/admin/facebook/post/getall', [App\Http\Controllers\PostController::class, 'getall'])->name('getall');
-    Route::post('/admin/facebook/post/getmodal', [App\Http\Controllers\PostController::class, 'getmodal'])->name('getmodal');
+    Route::post('/admin/facebook/post/getall', [App\Http\Controllers\Admin\PostController::class, 'getall'])->name('getall');
+    Route::post('/admin/facebook/post/getmodal', [App\Http\Controllers\Admin\PostController::class, 'getmodal'])->name('getmodal');
+    Route::post('/admin/facebook/post/getmodal/store', [App\Http\Controllers\Admin\PostController::class, 'store'])->name('post.store');
+
+    Route::post('/admin/facebook/post/page', [App\Http\Controllers\Admin\GraphController::class, 'publishToPage'])->name('page');
 
     /*---------Consumer List----------*/
     Route::get('/admin/consumer_list', [App\Http\Controllers\Consumer\ConsumerController::class, 'consumer_list']);

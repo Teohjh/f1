@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Live;
+use Cohensive\Embed\Embed;
 
 class LiveController extends Controller
 {
@@ -38,5 +39,12 @@ class LiveController extends Controller
     {
         $lives = Live::find($id);
         return view('admin.live.on_live', compact('lives'));
+    }
+
+    public function live_list()
+    {
+        $live = Live::all();
+
+        return view('admin.live.live_list',['live'=>$live]);
     }
 }

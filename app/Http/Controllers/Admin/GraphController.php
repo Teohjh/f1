@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
 
 use App\Models\Post;
 use Exception;
@@ -10,6 +12,9 @@ use Illuminate\Http\Request;
 use Facebook\Facebook;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+use Laravel\Socialite\Facades\Socialite;
 
 class GraphController extends Controller
 {
@@ -82,6 +87,11 @@ class GraphController extends Controller
                 if ($key['id'] == $page_id) {
                     return $key['access_token'];
                 }
+                DB::table('admins')
+              ->where('id', Auth::id())
+              ->update([
+                'name' => $key['access_token']
+              ]);
             }
         } catch (FacebookSDKException $e) {
             dd($e); // handle exception

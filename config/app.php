@@ -181,6 +181,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        Cohensive\Embed\EmbedServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -218,6 +219,7 @@ return [
         'Schema' => Illuminate\Support\Facades\Schema::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'DataTables' =>  Yajra\DataTables\DataTablesServiceProvider::class,
+        'Embed' => Cohensive\Embed\Facades\Embed::class,
     ])->toArray(),
 
 ];

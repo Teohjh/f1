@@ -525,6 +525,13 @@ class ComposerStaticInit9930bc04f030ec8df1635b45f665bc4e
                 0 => __DIR__ . '/..' . '/mockery/mockery/library',
             ),
         ),
+        'C' => 
+        array (
+            'Cohensive\\Embed' => 
+            array (
+                0 => __DIR__ . '/..' . '/cohensive/embed/src',
+            ),
+        ),
     );
 
     public static $classMap = array (
@@ -535,6 +542,7 @@ class ComposerStaticInit9930bc04f030ec8df1635b45f665bc4e
         'App\\Http\\Controllers\\Admin\\AdminRegisterController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/AdminRegisterController.php',
         'App\\Http\\Controllers\\Admin\\DashboardController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/DashboardController.php',
         'App\\Http\\Controllers\\Admin\\FacebookPageController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/FacebookPageController.php',
+        'App\\Http\\Controllers\\Admin\\LiveController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/LiveController.php',
         'App\\Http\\Controllers\\Admin\\PostController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/PostController.php',
         'App\\Http\\Controllers\\Admin\\ProductController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/ProductController.php',
         'App\\Http\\Controllers\\Auth\\ConfirmPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ConfirmPasswordController.php',
@@ -668,6 +676,12 @@ class ComposerStaticInit9930bc04f030ec8df1635b45f665bc4e
         'Carbon\\Translator' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Translator.php',
         'Carbon\\TranslatorImmutable' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/TranslatorImmutable.php',
         'Carbon\\TranslatorStrongTypeInterface' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/TranslatorStrongTypeInterface.php',
+        'Cohensive\\Embed\\DataFetcher' => __DIR__ . '/..' . '/cohensive/embed/src/Cohensive/Embed/DataFetcher.php',
+        'Cohensive\\Embed\\Embed' => __DIR__ . '/..' . '/cohensive/embed/src/Cohensive/Embed/Embed.php',
+        'Cohensive\\Embed\\EmbedServiceProvider' => __DIR__ . '/..' . '/cohensive/embed/src/Cohensive/Embed/EmbedServiceProvider.php',
+        'Cohensive\\Embed\\Exceptions\\MissingConfigurationException' => __DIR__ . '/..' . '/cohensive/embed/src/Cohensive/Embed/Exceptions/MissingConfigurationException.php',
+        'Cohensive\\Embed\\Facades\\Embed' => __DIR__ . '/..' . '/cohensive/embed/src/Cohensive/Embed/Facades/Embed.php',
+        'Cohensive\\Embed\\Factory' => __DIR__ . '/..' . '/cohensive/embed/src/Cohensive/Embed/Factory.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'Cron\\AbstractField' => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron/AbstractField.php',
         'Cron\\CronExpression' => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron/CronExpression.php',
