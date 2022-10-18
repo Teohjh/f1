@@ -32,14 +32,44 @@ class ProductController extends Controller
             'product_stock_quantity'  => 'required',
             'product_price' => 'required'
         ]);
+/*
+        if($request->hasFile('product_image'))
+        {
+            //get filename with the ectension
+            $file = $request->file('product_image');
+
+            //get just the filename
+            $extension = $file->getClientOriginalName();
+            $fileName = time().'.'.$extension;
+
+            //get the filename to store
+            $destinationPath = public_path().'/assests/image/product/';
+
+            $file->move($destinationPath, $fileName);
+        }
+
+        if($request->hasFile('image')){
+            $image = $request->file('image');
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            Image::make($image)->resize(300, 300)->save( storage_path('/assests/image/product/' . $filename ) );
+            $person->image = $filename;
+            $person->save();
+          };
+*/
+        if($request->hasFile('product_image')){
+            $product_image = time().'-'.$request->product_image->getClientOriginalName();
+            $request->product_image->move('assets\image\product', $product_image);
+        }
+
         $product = new Product();
         $product->product_code = $request->product_code;
         $product->product_name = $request->product_name;
         $product->product_description = $request->product_description;
-        $product->product_image = $request->product_image;
+        $product->product_image = $product_image;
         $product->product_stock_quantity = $request->product_stock_quantity;
         $product->product_price = $request->product_price;
         $respond = $product->save();
+    
         if($respond){
             return back()->with('success', 'You added product successful.');
         }else{
