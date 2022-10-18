@@ -1,5 +1,7 @@
+<!--Search Product Page -->
 @extends('layouts.master')
 
+<!-- Page Title -->
 @section('title','Product List')
 
 @section('admin_content')
@@ -11,11 +13,14 @@
         <div class="card-header">
             <h3 class=""> <a href="javascript:history.back()" style="color:#000000"> <i class="fa fa-chevron-circle-left" aria-hidden="true"></i></a>   Product List</h3>
             <br>
+            <!-- Search prodduct with input product name -->
             <form class="input-group mb-3" type="get" action="{{url('admin/product/search')}}">
                 <input class="form-control" name="query_product_name" type="serach" placeholder="Search For Product Name"/>
                 <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Search</button>
             </form>
+            <!-- button for add product-->
             <a  href="{{url('admin/product/add')}}" class="btn btn-outline-primary openaddmodal float-end mb-2 m-2">Add Product</a>
+            <!-- Back to show all product list -->
             <a  href="{{url('admin/product')}}" class="btn btn-outline-success openaddmodal float-end mb-2 m-2">All Product</a>
         </div>
         <div class="card-body">
@@ -32,6 +37,7 @@
                 <th scope="col">Status</th>
                 <th scope="col" colspan="2" style="text-align:center">Action</th>
             </tr>
+            <!-- List out the search data from database -->
             @foreach($products as $product)
             <tr class="align-middle" style="text-align:center">
                 <td scope="col">
@@ -80,6 +86,7 @@
             </tr>
             @endforeach
 
+            <!-- If the search value is empty, it will display not found message -->
             @if($products->isEmpty())
             <tr class="align-middle" style="text-align:center">
                 <td colspan="9" style="color:#ff0000">No Product Found</td>

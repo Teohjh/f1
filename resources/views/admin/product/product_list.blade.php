@@ -1,14 +1,46 @@
+<!-- Product List Page -->
 @extends('layouts.master')
 
+<!-- Page Title -->
 @section('title','Product List')
 
 @section('admin_content')
 
 <!-- Page content-->
 <div class="container-fluid px-4">
+    <!--Message shown when update status successful-->
+    @if(session()->has('success'))
+    <div class="card mt-4" id="message_show">
+        <div class="card-body"> 
+            <div class="alert alert-success">
+                {{ session()->get('success') }}
+                <button id="close" type="button" class="close float-right" data-dismiss="alert" aria-label="Close" style="float: right">
+                    <span aria-hidden="true" class="float-right">&times;</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    @endif
+
+    <!--Message shown when update status fail-->
+    @if(session()->has('fail'))
+    <div class="card mt-4" id="message_show">
+        <div class="card-body"> 
+            <div class="alert alert-danger">
+                {{ session()->get('fail') }}
+                <button id="close" type="button" class="close float-right" data-dismiss="alert" aria-label="Close" style="float: right">
+                    <span aria-hidden="true" class="float-right">&times;</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    @endif
+
+    <!-- All Product will be list out -->
     <div class="card mt-4">
         <div class="card-header">
             <h4 class="">Product List</h4>
+            <!-- Search Product -->
             <div class="mb-2">
                 <form class="input-group mb-3" type="get" action="{{url('admin/product/search')}}">
                     <input class="form-control" name="query_product_name" type="serach" placeholder="Search For Product Name"/>
@@ -97,7 +129,20 @@
         </div>
     </div>
 </div>
-
-
-
 @endsection
+
+@push('scripts')
+<script>
+    //close the message after update
+    $(document).ready(function () {
+        
+        $("#message_show").hide().fadeIn(1000);
+
+        //close the message when the button with id="close" is clicked
+        $("#close").on("click", function (e) {
+            e.preventDefault();
+            $("#message_show").fadeOut(1000);
+        });
+    });
+</script>
+@endpush
