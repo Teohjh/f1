@@ -95,7 +95,7 @@ class GraphController extends Controller
 
     public function publishToPage(Request $request){
  
-        $page_id = '106068192211821';
+        $page_id = Auth::user()->facebook_page_id??'';
         
         try {
             if ($page_id && Auth::user()->token) {
@@ -110,23 +110,18 @@ class GraphController extends Controller
                     $type1 = 'photos';
                     $type2 = 'message';
                 }*/
-
-                $post = $this->api->post('/' . $page_id . '/feed', array('message' => $request->message), $this->getPageAccessToken($page_id));
- 
-                $post = $post->getGraphNode()->asArray();
-        
-                dd($post);
-                /*
+                
                 if ($getdata->fb_post_id) {
                     $post = $this->api->post('/' . $getdata->fb_post_id , array('message' => $getdata->message), $this->getPageAccessToken($page_id));
                 }else{
                     $post = $this->api->post('/' . $page_id . '/' . 'photos', array('message' => $getdata->message, 'source' => $this->api->fileToUpload(public_path('assets/image/post/'.$getdata->image))), $this->getPageAccessToken($page_id));
                 }
     
-                $post = $post->getGraphNode()->asArray();*/
+                $post = $post->getGraphNode()->asArray();
                 if (empty($getdata->fb_post_id)) {
                     if ($post) {
-                        $getdata->fb_post_id = $post['id'];
+                        $getdata->fb_post_id = $post['post_id']??$post['id'];
+                        $getdata->fb_id = $post['id'];
                         $getdata->save();
                         $status_code= 200;
                         $msg = 'Ctrated on facebook post successfully';

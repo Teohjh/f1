@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class FacebookPage extends Model
 {
     use HasFactory;
+
     /**
      * The table associated with the model.
      *
@@ -20,5 +21,5 @@ class FacebookPage extends Model
      *
      * @var array
      */
-    protected $fillable =['email','facebook_app_id','facebook_page_id','token'];
+    protected $fillable =['email','facebook_app_id','facebook_page_id','page_access_token','access_token'];
 }

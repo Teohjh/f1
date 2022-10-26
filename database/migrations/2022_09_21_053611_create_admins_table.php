@@ -19,9 +19,9 @@ return new class extends Migration
             $table->string('admin_email');
             $table->timestamp('admin_email_verified_at')->nullable();
             $table->string('admin_password');
-            $table->string('facebook_app_id')->nullable();
+            $table->string('facebook_account_id')->nullable();
             $table->string('facebook_page_id')->nullable();
-            $table->string('name')->nullable();
+            $table->text('facebook_page_access_token')->nullable();
             $table->text('token')->nullable();
             $table->rememberToken();
             $table->timestamps();

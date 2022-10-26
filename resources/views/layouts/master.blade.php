@@ -59,6 +59,9 @@
     <!------JQuery Confirm---------->
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
 
+    <!--Facebook Plugin -->
+    <script async defer src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v15.0"></script>
+
     @stack('scripts')
 
 </body>

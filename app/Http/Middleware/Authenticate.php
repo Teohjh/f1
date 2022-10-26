@@ -21,7 +21,7 @@ class Authenticate extends Middleware
     protected function redirectToConsumer($request)
     {
         if (! $request->expectsJson()) {
-            return redirect()->intended('/consumer/indx');
+            return redirect()->intended('/consumer/index');
         }
     }
     protected function redirectToAdmin($request)

@@ -52,8 +52,9 @@ Route::group(['middleware' => 'auth:admin'], function () {
     Route::get('/admin/account',[App\Http\Controllers\Admin\AdminController::class, 'admin_account']);
     Route::get('/facebook',  [App\Http\Controllers\Admin\AdminController::class, 'redirectToFacebookProvider'])->name('facebook');
     Route::get('/facebook/callback', [App\Http\Controllers\Admin\AdminController::class, 'handleProviderFacebookCallback']);
-    Route::post('/facebook_page_id', [App\Http\Controllers\Admin\AdminController::class, 'facebook_page_id'])->name('facebook_page_id');
-    
+    Route::get('/facebook_page_id', [App\Http\Controllers\Admin\FacebookController::class, 'getPage'])->name('facebook_page_id');
+    //Route::get('/facebook/get_page_access_token', [App\Http\Controllers\Admin\FacebookPageController::class, 'getPageAccessToken'])->name('facebook_page_access_token');
+    Route::get('/facebook/get_page_access_token', [App\Http\Controllers\Admin\FacebookController::class, 'getPageAccessToken'])->name('facebook_page_access_token');
 
     /*------Logout-------*/
     Route::get('/admin/logout', [App\Http\Controllers\Admin\AdminLoginController::class, 'logout']);
@@ -84,9 +85,11 @@ Route::group(['middleware' => 'auth:admin'], function () {
 
     /*------Live Session------*/
     Route::get('/admin/live/setup',[App\Http\Controllers\Admin\LiveController::class, 'live_setup']);
+    Route::get('/admin/get_live',[App\Http\Controllers\Admin\FacebookController::class, 'getLiveNow'])->name('get_live_stream');
     Route::post('/admin/live/setup/successful',[App\Http\Controllers\Admin\LiveController::class, 'save_live']);
     Route::get('/admin/live/{id}',[App\Http\Controllers\Admin\LiveController::class, 'start_live'])->name('start_live');
     Route::get('/admin/live',[App\Http\Controllers\Admin\LiveController::class, 'live_list']);
+    Route::get('/admin/live/get_product',[App\Http\Controllers\Admin\LiveController::class, 'get_product'])->name('get_product');
     Route::get('/admin/live/product/list_bid',[App\Http\Controllers\Admin\LiveController::class, 'live_list_bid']);
 
     /*--------Facebook Post---------*/
@@ -95,8 +98,13 @@ Route::group(['middleware' => 'auth:admin'], function () {
     Route::post('/admin/facebook/post/getall', [App\Http\Controllers\Admin\PostController::class, 'getall'])->name('getall');
     Route::post('/admin/facebook/post/getmodal', [App\Http\Controllers\Admin\PostController::class, 'getmodal'])->name('getmodal');
     Route::post('/admin/facebook/post/getmodal/store', [App\Http\Controllers\Admin\PostController::class, 'store'])->name('post.store');
+    Route::get('/admin/facebook/post/getmodal/edit/{id}', [App\Http\Controllers\Admin\PostController::class, 'edit_post'])->name('post.edit');
+    Route::post('/admin/facebook/post/getmodal/update/{id}', [App\Http\Controllers\Admin\PostController::class, 'update_post'])->name('post.update');
+    Route::get('/admin/facebook/get_post', [App\Http\Controllers\Admin\FacebookController::class, 'getPostPage'])->name('getPostPage');
 
     Route::post('/admin/facebook/post/page', [App\Http\Controllers\Admin\GraphController::class, 'publishToPage'])->name('page');
+   // Route::get('/facebook',  [App\Http\Controllers\Admin\FacebookController::class, 'redirectToProvider'])->name('facebook');
+    //Route::get('/facebook/callback', [App\Http\Controllers\Admin\FacebookController::class, 'handleProviderCallback']);
 
     /*---------Consumer List----------*/
     Route::get('/admin/consumer_list', [App\Http\Controllers\Consumer\ConsumerController::class, 'consumer_list']);

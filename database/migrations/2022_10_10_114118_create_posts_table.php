@@ -15,12 +15,12 @@ return new class extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nullable();
             $table->string('image')->nullable();
             $table->string('file_type')->nullable();
             $table->string('message')->nullable();  
+            $table->string('date_time')->nullable();  
             $table->enum('status',[['active','inactive']])->nullable()->default('active');  
-            $table->string('fb_id')->nullable();
+            $table->string('fb_page_id')->nullable();
             $table->string('fb_post_id')->nullable();
             $table->timestamps();
         });

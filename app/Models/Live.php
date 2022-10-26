@@ -20,5 +20,5 @@ class Live extends Model
      *
      * @var array
      */
-    protected $fillable =['embed_code','live_description'];
+    protected $fillable =['live_stream_id','embed_html','status','stream_url','secure_stream_url'];
 }

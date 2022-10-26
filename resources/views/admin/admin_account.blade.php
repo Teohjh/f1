@@ -35,12 +35,24 @@
                     
                     <br>
 
+                    <label for="fb_token">Facebook Page Account Token</label>
+                    <input type="text" class="form-control" value="{{Auth::user()->facebook_page_access_token ??''}}" readonly>
+                    <a href="{{route('facebook_page_access_token')}}" class="btn btn-info float-end " title="click"> <i class="fa fa-key" aria-hidden="true"></i></a>
+                    
+                    <br>
+
                     <label for="facebook_page_id">Facebook Page ID</label>
+                    <!--
                     <form class="input-group" action="{{route('facebook_page_id')}}" method="POST">
                     @csrf
                         <input type="text" class="form-control facebook_page_id" name="facebook_page_id" placeholder="Enter Facebook Page ID" value="{{Auth::user()->facebook_page_id ??''}}" required>
                         <button class="btn btn-info" type="submit"><i class="fa fa-upload" aria-hidden="true"></i></button>
-                    </form>
+                    </form>-->
+
+                    <input type="text" class="form-control" value="{{Auth::user()->facebook_page_id ??''}}" readonly>
+                    <a href="{{route('facebook_page_id')}}" class="btn btn-info float-end " title="click"> <i class="fa fa-upload" aria-hidden="true"></i></a>
+
+                    
                 </div>
             </div>
         </div>

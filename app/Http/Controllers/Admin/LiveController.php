@@ -5,14 +5,16 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Live;
+use App\Models\Product;
 use Cohensive\Embed\Embed;
 
 class LiveController extends Controller
 {
     
-    public function live_setup()
+    public function live_setup(Request $request)
     {
-        return view('admin.live.live_setup');
+        $products = Product::all();
+        return view('admin.live.live_setup', compact('products'));
     }
 
     public function live_list_bid()
@@ -51,5 +53,11 @@ class LiveController extends Controller
         $live = Live::all();
 
         return view('admin.live.live_list',['live'=>$live]);
+    }
+
+    public function get_product(){
+        $data = Product::all();
+
+        
     }
 }

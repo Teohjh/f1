@@ -27,7 +27,8 @@ class AdminController extends Controller
     {
         return Socialite::driver('facebook')->scopes([
            "public_profile", "pages_show_list", "pages_read_engagement", "pages_manage_posts", 
-           "pages_manage_metadata", "user_videos", "user_posts","publish_video"
+           "pages_manage_engagement", "pages_read_user_content", "pages_manage_metadata", "user_videos", 
+           "user_posts","publish_video"
         ])->redirect();
     }
 
@@ -40,8 +41,7 @@ class AdminController extends Controller
               ->where('id', Auth::id())
               ->update([
                 'token' => $auth_admin->token,
-                'name' => $auth_admin->email,
-                'facebook_app_id'  =>  $auth_admin->id,
+                'facebook_account_id'  =>  $auth_admin->id,
               ]);
         return redirect()->to('/admin/account');
     }

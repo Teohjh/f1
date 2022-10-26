@@ -13,13 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('lives', function (Blueprint $table) {
+        Schema::create('facebook_pages', function (Blueprint $table) {
             $table->id();
-            $table->string('live_stream_id')->nullable();
-            $table->text('embed_html')->nullable();
-            $table->string('status')->nullable();
-            $table->string('stream_url')->nullable();
-            $table->string('secure_stream_url')->nullable();
+            $table->string('email')->nullable();
+            $table->string('facebook_app_id')->nullable();
+            $table->string('facebook_page_id')->nullable();
+            $table->string('page_access_token')->nullable();
+            $table->string('access_token')->nullable();
             $table->timestamps();
         });
     }
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('lives');
+        Schema::dropIfExists('facebook_pages');
     }
 };
