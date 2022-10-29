@@ -21,21 +21,23 @@
         <table id="datatable" class="table table-hover datatable">
         <thead>
              <tr class="align-middle" style="text-align:center">
-                <th scope="col">#</th>
                 <th scope="col">Live ID</th>
                 <th scope="col">Live Date/Time</th>
-                <th scope="col">Live Description</th>
+                <th scope="col">Status</th>
                 <th scope="col">Action</th>
             </tr>
             @foreach($live as $lives)
             <tr class="align-middle" style="text-align:center">
-                <td scope="col">{{$lives['id']}}</td>
-                <td scope="col">{{$lives['fb_live_id']}}</td>
+                <td scope="col">{{$lives['live_stream_id']}}</td>
+                <td scope="col">{{$lives['created_at']}}</td>
+                <td scope="col">{{$lives['live_status']}}</td>
                 <td scope="col">
-                    {{$lives['live_date']}} /  {{$lives['live_time']}}
+                    @if($lives->live_status == 'LIVE')
+                        <a href="{{url('admin/live/'. $lives->live_stream_id)}}" class="btn">ON LIVE</a>
+                    @else
+                        <p>No On Live</p>
+                    @endif
                 </td>
-                <td scope="col">{{$lives['live_description']}}</td>
-                <td scope="col">{{$lives['status']}}</td>
             </tr>
             @endforeach
         </thead>

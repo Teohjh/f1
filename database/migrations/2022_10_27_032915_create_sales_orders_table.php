@@ -13,17 +13,18 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('bid_products', function (Blueprint $table) {
-            $table->increments('bid_id');
+        Schema::create('sales_orders', function (Blueprint $table) {
+            $table->id();
             $table->string('live_stream_id');
-            $table->string('product_code');
-            $table->string('product_name');
-            $table->string('product_description');
-            $table->string('product_image')->nullable();
-            $table->decimal('product_price',$total = 8, $places = 2);
-            $table->integer('product_sales_quantity');
+            $table->string('provider_id');
+            $table->string('name');
+            $table->unsignedInteger('bid_id');
+            $table->string('comment_id');
+            $table->integer('quantity');
+            $table->decimal('total_amount',$total = 8, $places = 2);
             $table->timestamps();
             $table->foreign('live_stream_id')->references('live_stream_id')->on('lives');
+            $table->foreign('bid_id')->references('bid_id')->on('bid_products');
         });
     }
 
@@ -34,6 +35,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bid_products');
+        Schema::dropIfExists('sales_orders');
     }
 };

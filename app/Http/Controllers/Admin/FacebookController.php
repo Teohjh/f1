@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 
 use App\Models\Post;
 use App\Models\Live;
+use App\Models\Comment;
 use Exception;
 use App\Providers\FacebookRepository;
 use Facebook\Exceptions\FacebookResponseException;
@@ -148,8 +149,84 @@ class FacebookController extends Controller
         return redirect()->to('/admin/facebook/post');
     }
 
-    //get live from facebook
+    //get live on from facebook
     public function getLiveNow(){
+
+        $token = Auth::user()->token;
+        $page_token = Auth::user()->facebook_page_access_token;
+
+        $link = "https://graph.facebook.com/me/live_videos?status=LIVE_NOW&access_token=$page_token";
+        //$link = "https://graph.facebook.com/me/live_videos?access_token=$page_token";
+
+        $collection = Http::get($link);
+        $item = $collection['data'];
+
+        foreach ($item as $key) {
+
+            $live_status = $key['status'];
+            $live_stream_id = $key['id'];
+
+            if ($live_status == "LIVE"){
+
+                if(Live::where('live_stream_id',$live_stream_id)->exists()){
+
+                    DB::table('lives')
+                    ->where('live_stream_id', $live_stream_id)
+                    ->update([
+                    'embed_html' =>  $key['embed_html'],
+                    'live_status' => $live_status,
+                    'stream_url' =>  $key['stream_url'],
+                    'secure_stream_url' =>  $key['secure_stream_url'],
+                    ]);
+                    
+                }
+                else{
+                    //save live
+                    $live = new Live();
+                    $live->live_stream_id = $live_stream_id;
+                    $live->embed_html = $key['embed_html'];
+                    $live->live_status = $live_status;
+                    $live->stream_url = $key['stream_url'];
+                    $live->secure_stream_url = $key['secure_stream_url'];
+                    $live->save();
+                }
+            }
+            else{
+
+               return redirect()->to('/admin/live/setup');
+            }
+               
+        }
+        
+
+        return redirect()->to('/admin/live/setup');
+    }
+
+    //get live on from facebook
+    public function getEndLive($live_stream_id){
+
+        $token = Auth::user()->token;
+        $page_token = Auth::user()->facebook_page_access_token;
+
+      //  $link = "https://graph.facebook.com/me/live_videos?status=LIVE_NOW&access_token=$page_token";
+        //$link = "https://graph.facebook.com/me/live_videos?access_token=$page_token";
+
+       // $collection = Http::get($link);
+       // $item = $collection['data'];
+
+
+        DB::table('lives')
+        ->where('live_stream_id', $live_stream_id)
+         ->update([
+                'live_status' => "VOD",
+         ]);
+               
+
+        return redirect()->route('live_setup');
+    }
+
+    //get live from facebook
+    public function getLive(){
 
         $token = Auth::user()->token;
         $page_token = Auth::user()->facebook_page_access_token;
@@ -162,27 +239,104 @@ class FacebookController extends Controller
 
         foreach ($item as $key) {
 
-            $status = $key['status'];
+            $live_status = $key['status'];
             $live_stream_id = $key['id'];
 
-            //if ($status == "LIVE"){
-                //save live
-                $live = new Live();
-                $live->live_stream_id = $live_stream_id;
-                $live->embed_html = $key['embed_html'];
-                $live->status = $status;
-                $live->stream_url = $key['stream_url'];
-                $live->secure_stream_url = $key['secure_stream_url'];
-                $live->save();
-            //}
-            //else{
+            if ($live_status == "LIVE"){
 
-               // return redirect()->to('/admin/live/setup');
-            //}
+                if(Live::where('live_stream_id',$live_stream_id)->exists()){
+
+                    DB::table('lives')
+                    ->where('live_stream_id', $live_stream_id)
+                    ->update([
+                    'embed_html' =>  $key['embed_html'],
+                    'live_status' => $live_status,
+                    'stream_url' =>  $key['stream_url'],
+                    'secure_stream_url' =>  $key['secure_stream_url'],
+                    ]);
+                    
+                }
+                else{
+                    //save live
+                    $live = new Live();
+                    $live->live_stream_id = $live_stream_id;
+                    $live->embed_html = $key['embed_html'];
+                    $live->live_status = $live_status;
+                    $live->stream_url = $key['stream_url'];
+                    $live->secure_stream_url = $key['secure_stream_url'];
+                    $live->save();
+                }
+            }
+            else{
+                $live_stream_id = null;
+               return redirect()->to('/admin/live');
+            }
                
         }
 
-        return redirect()->to('/admin/live/setup', compact('live_stream_id'));
+        return redirect()->to('/admin/live');
+    }
+
+    //get comment from live stream and filter for the bid code
+    public function getComment($live_stream_id){
+
+        $token = Auth::user()->token;
+        $page_token = Auth::user()->facebook_page_access_token;
+
+        $link = "https://graph.facebook.com/$live_stream_id/comments?access_token=$page_token";
+
+        $collection = Http::get($link);
+        $item = $collection['data'];
+
+        foreach ($item as $key) {
+
+            $consumer = $key['from'];
+            $comment_id = $key['id'];
+
+            if (isset($live_stream_id)){
+
+                if(Comment::where('comment_id',$comment_id)->exists()){
+
+                    
+                }
+                else{
+                    $comment = $key['message'];
+                   //if($comment == "A001+1"){
+                        //save live
+                        $comment = new Comment();
+                        $comment->live_stream_id = $live_stream_id;
+                        $comment->comment_id = $comment_id;
+                        $comment->provider_id = $consumer['id'];
+                        $comment->name = $consumer['name'];
+                        $comment->comment = $key['message'];
+                        $comment->comment_date_time = $key['created_time'];
+                        $comment->save();
+                   // }
+                    
+                }
+            }
+            else{
+
+                //return redirect()->route('ongoing_live', [$live_stream_id]);
+                return redirect()->action('App\Http\Controllers\Admin\LiveController@ongoing_live',['live_stream_id' => $live_stream_id]);
+       
+            }
+               
+        }
+        
+
+        //return redirect()->route('ongoing_live', [$live_stream_id]);
+        return redirect()->action('App\Http\Controllers\Admin\LiveController@ongoing_live',['live_stream_id' => $live_stream_id]);
+       
+    }
+
+    //get all comment from database
+    public function comment_list(){
+
+        $comment = Comment::all();
+
+        return view('admin.live.live_comment_list',['comment'=>$comment]);
+
     }
     
 }

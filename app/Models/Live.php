@@ -14,6 +14,7 @@ class Live extends Model
      * @var string
      */
     protected $table = 'lives';
+    protected $primaryKey = 'live_stream_id';
 
     /**
      * The attributes that are mass assignable

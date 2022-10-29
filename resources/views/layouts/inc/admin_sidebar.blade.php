@@ -37,9 +37,13 @@
                                 <div class="sb-nav-link-icon"><i class="fa fa-cubes"></i></div>
                                 Live Session List
                             </a>
-                            <a class="nav-link {{ Request::is('admin/live/product/list_bid') ? 'active':''}}" href="{{url('/admin/live/product/list_bid')}}">
+                            <a class="nav-link {{ Request::is('admin/bid_product/list') ? 'active':''}}" href="{{url('/admin/bid_product/list')}}">
                                 <div class="sb-nav-link-icon"><i class="fa fa-link"></i></div>
                                 List of bid
+                            </a>
+                            <a class="nav-link {{ Request::is('admin/live/comment/list') ? 'active':''}}" href="{{url('/admin/live/comment/list')}}">
+                                <div class="sb-nav-link-icon"><i class="fa fa-comments"></i></div>
+                                List of Live Comment
                             </a>
 
                             <div class="sb-sidenav-menu-heading">Sales Order</div>

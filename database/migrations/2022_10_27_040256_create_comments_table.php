@@ -13,12 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('lives', function (Blueprint $table) {
-            $table->string('live_stream_id')->primary();
-            $table->text('embed_html')->nullable();
-            $table->text('live_status')->nullable();
-            $table->string('stream_url')->nullable();
-            $table->string('secure_stream_url')->nullable();
+        Schema::create('comments', function (Blueprint $table) {
+            $table->string('comment_id')->primary();
+            $table->string('live_stream_id');
+            $table->string('provider_id');
+            $table->string('name');
+            $table->string('comment');
+            $table->string('comment_date_time');
             $table->timestamps();
         });
     }
@@ -30,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('lives');
+        Schema::dropIfExists('comments');
     }
 };
