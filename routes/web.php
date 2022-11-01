@@ -19,23 +19,31 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/test', function () {
-    return view('testing');
-});
+Route::get('/error', function () {
+    return view('error');
+})->name('error');
 
 Auth::routes();
 
 /*-------Consumer authentication------ */
-//Facebook login
+/*Facebook login
 Route::get('/consumer/login',[App\Http\Controllers\Consumer\ConsumerLoginController::class, 'login'])->name('consumer-login');
 Route::get('/consumer/login/facebook/redirect',[App\Http\Controllers\Consumer\ConsumerLoginController::class, 'facebookRedirect'])->name('facebook-redirect');
 Route::get('/consumer/login/facebook/callback',[App\Http\Controllers\Consumer\ConsumerLoginController::class, 'facebookCallback'])->name('facebook-callback');
+*/
+
+Route::get('/consumer/login',[App\Http\Controllers\Consumer\ConsumerLoginController::class, 'login'])->name('consumer-login');
+Route::post('/consumer/login-consumer',[App\Http\Controllers\Consumer\ConsumerLoginController::class,'consumer_login_success'])->name('login-success-consumer');
+
 
 /*------After Consumer Successfull login------*/
 Route::group(['middleware' => 'auth:consumer'], function () {
 
     Route::get('/consumer/index', [App\Http\Controllers\Consumer\ConsumerController::class, 'index'])->name('consumer-index'); 
     Route::get('/consumer/order_history', [App\Http\Controllers\Consumer\ConsumerController::class, 'order_history']); 
+
+    /*------Consumer Logout-------*/
+    Route::post('/consumer/logout', [App\Http\Controllers\Admin\ConsumerLoginController::class, 'consumer_logout'])->name('consumer_logout');
 
 });
 
@@ -72,11 +80,9 @@ Route::group(['middleware' => 'auth:admin'], function () {
     Route::get('/admin/product/search', [App\Http\Controllers\Admin\ProductController::class, 'product_search']);
 
     /*------Order------*/
+    Route::get('/admin/sales/list', [App\Http\Controllers\Admin\SalesOrderController::class, 'sales_order_list']);
     Route::get('/admin/order/list', function () {
         return view('admin.sales_order.order_list');
-    });
-    Route::get('/admin/sales/list', function () {
-        return view('admin.sales_order.sales_list');
     });
     Route::get('/admin/order/shipping', function () {
         return view('admin.sales_order.order_shipping_list');
@@ -97,6 +103,12 @@ Route::group(['middleware' => 'auth:admin'], function () {
     Route::get('/admin/live/comment/list', [App\Http\Controllers\Admin\FacebookController::class, 'comment_list'])->name('comment_list');
     /*--------Facebook Live Stream Bid Product List-----------*/
     Route::get('/admin/bid_product/list', [App\Http\Controllers\Admin\LiveController::class, 'bid_product_list'])->name('bid_product_list');
+    /*--------Facebook Live Stream Start Bid Product------------*/
+    Route::post('/admin/live/start_bid/{bid_id}', [App\Http\Controllers\Admin\FacebookController::class, 'start_bid']);
+    /*--------Facebook Live Stream End Bid Product------------*/
+    Route::post('/admin/live/end_bid/{bid_id}', [App\Http\Controllers\Admin\FacebookController::class, 'end_bid']);
+    /*--------Facebook Live Stream Delete Bid Product------------*/
+    Route::post('/admin/live/delete_bid/{bid_id}', [App\Http\Controllers\Admin\FacebookController::class, 'delete_bid_product']);
 
     /*--------Facebook Post---------*/
     Route::resource('post', 'PostController');

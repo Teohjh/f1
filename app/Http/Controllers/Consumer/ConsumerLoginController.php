@@ -8,6 +8,7 @@ use App\Models\Consumer;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Http\Request;
 
 class ConsumerLoginController extends Controller
 {
@@ -21,6 +22,16 @@ class ConsumerLoginController extends Controller
    // protected $redirectTo = RouteServiceProvider::HOME;
     protected $redirectToConsumer = RouteServiceProvider::CONSUMER_HOME;
 
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('guest:consumer')->except('logout');
+    }
+
     public function guard()
     {
      return Auth::guard('consumer');
@@ -28,12 +39,25 @@ class ConsumerLoginController extends Controller
 
     public function login()
     {
+
         return view("consumer.consumer_login");
     }
 
-    public function order_history()
+    public function consumer_login_success(Request $request)
     {
-        return view("consumer.consumer_order_history");
+        $password = NULL;
+        
+        if (Auth::guard('consumer')->attempt(['email'=> $request->email, 'password'=> $password])) {
+
+            $user = auth()->guard('consumer')->user();
+            return redirect()->intended('/consumer/index');
+        }
+        else{
+            return redirect()
+                ->back()
+                ->with('status','authentication failed, please try again!');
+        }
+        
     }
 
     public function facebookRedirect(){
@@ -67,7 +91,7 @@ class ConsumerLoginController extends Controller
              * and the second param is boolean for remembering the
              * user.
              */ 
-            Auth::login($consumer,true);
+            //Auth::login($consumer,true);
             //Success
             //$user = auth()->guard('consumer')->user();
             // return redirect()->route('consumer-index');
@@ -87,14 +111,11 @@ class ConsumerLoginController extends Controller
         }
     }
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('guest:consumer')->except('logout');
-    }
+    
+    //consumer logout page
+    public function consumer_logout(Request $request) {
+        Auth::logout();
+        return redirect('/consumer/login');
+      }
 
 }

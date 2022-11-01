@@ -21,7 +21,7 @@ class Consumer extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name', 'email', 'password', 'provider_id', 'avatar',
+        'email'
     ];
 
     /**
@@ -43,9 +43,9 @@ class Consumer extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    //user
-    public function user(){
-        return $this->belongsTo(User::class);
-    }
+    public function getAuthPassword()
+        {
+            return $this->password;
+        }
     
 }

@@ -22,6 +22,8 @@ return new class extends Migration
             $table->string('product_image')->nullable();
             $table->decimal('product_price',$total = 8, $places = 2);
             $table->integer('product_sales_quantity');
+            $table->integer('start_bid')->default('1');
+            $table->integer('end_bid')->default('0');
             $table->timestamps();
             $table->foreign('live_stream_id')->references('live_stream_id')->on('lives');
         });

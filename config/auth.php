@@ -51,6 +51,11 @@ return [
             'provider' => 'admins',
             'hash' => false,
         ],
+        'api_consumer' => [
+            'driver' => 'token',
+            'provider' => 'consumers',
+            'hash' => false,
+        ],
 
          'admin' => [
             'driver' => 'session',
@@ -61,6 +66,7 @@ return [
             'driver' => 'session',
             'provider' => 'consumers',
         ],
+
     ],
 
     /*

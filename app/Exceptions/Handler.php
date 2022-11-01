@@ -60,6 +60,6 @@ class Handler extends ExceptionHandler
         if ($request->is('consumer') || $request->is('consumer/*')) {
             return redirect()->guest('consumer/login');
         }
-        return redirect()->guest(route('login'));
+        return redirect()->guest(route('error'));
     }
 }

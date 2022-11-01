@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-
+use App\Models\BidProduct;
 use App\Models\Post;
 use App\Models\Live;
 use App\Models\Comment;
+use App\Models\SalesOrder;
 use Exception;
 use App\Providers\FacebookRepository;
 use Facebook\Exceptions\FacebookResponseException;
@@ -288,11 +289,15 @@ class FacebookController extends Controller
         $collection = Http::get($link);
         $item = $collection['data'];
 
+        if(empty($item)){
+            return redirect()->back();
+        }
+
         foreach ($item as $key) {
 
             $consumer = $key['from'];
             $comment_id = $key['id'];
-
+           
             if (isset($live_stream_id)){
 
                 if(Comment::where('comment_id',$comment_id)->exists()){
@@ -300,19 +305,51 @@ class FacebookController extends Controller
                     
                 }
                 else{
-                    $comment = $key['message'];
-                   //if($comment == "A001+1"){
-                        //save live
-                        $comment = new Comment();
-                        $comment->live_stream_id = $live_stream_id;
-                        $comment->comment_id = $comment_id;
-                        $comment->provider_id = $consumer['id'];
-                        $comment->name = $consumer['name'];
-                        $comment->comment = $key['message'];
-                        $comment->comment_date_time = $key['created_time'];
-                        $comment->save();
-                   // }
+                    $consumer_comment = $key['message'];
+
+                    //save all comment from facebook to database
+                    $comment = new Comment();
+                    $comment->live_stream_id = $live_stream_id;
+                    $comment->comment_id = $comment_id;
+                    $comment->provider_id = $consumer['id'];
+                    $comment->name = $consumer['name'];
+                    $comment->comment = $key['message'];
+                    $comment->comment_date_time = $key['created_time'];
+                    $comment->save();
+
+                    //get data from bid product database
+                    $bid_product = BidProduct::where('start_bid','0')->where('end_bid','0')->first();
+                   
+                    //if($bid_product){
+
+                        $bid_code = $bid_product['product_code'];
+                        $bid_product_price = $bid_product['product_price'];
+
+                    //}else{
+
+                       // $bid_code = " ";
+
+                  //  }
+
+                    $split_comment = explode('+',$consumer_comment);
                     
+                    $quantity = $split_comment[1];
+                    $temp_comment = $bid_code."+".$quantity;
+
+                    if($consumer_comment == $temp_comment){
+
+                        $sales_order = new SalesOrder();
+                        $sales_order->live_stream_id = $live_stream_id;
+                        $sales_order->provider_id = $consumer['id'];
+                        $sales_order->name = $consumer['name'];
+                        $sales_order->bid_id = 1;
+                        $sales_order->comment_id = $comment_id;
+                        $sales_order->quantity = (int) $quantity;
+                        $total_amount = $bid_product_price * (int) $quantity;
+                        $sales_order->total_amount = $total_amount;
+                        $sales_order->save();
+                    }
+
                 }
             }
             else{
@@ -328,6 +365,60 @@ class FacebookController extends Controller
         //return redirect()->route('ongoing_live', [$live_stream_id]);
         return redirect()->action('App\Http\Controllers\Admin\LiveController@ongoing_live',['live_stream_id' => $live_stream_id]);
        
+    }
+
+    //start bid product
+    public function start_bid($bid_id){
+
+        $bid_product = BidProduct::find($bid_id);
+
+        if( isset($bid_product) && !is_null($bid_product)) {
+
+            // update status to hide
+            $bid_product->start_bid =  '0';
+
+            $respond = $bid_product->save();
+    
+            if($respond){
+                return redirect()->back()->with('success', 'Start Bid');
+            }else{
+                return redirect()->back()->with('fail','Error, Fail to Start Bid. Please try again');
+            }
+        
+        } else {
+            
+            return redirect()->back()->with('fail','Error, Unavailable');
+        }
+
+    }
+
+    //end bid product
+    public function end_bid($bid_id){
+        $bid_product = BidProduct::find($bid_id);
+
+        if( isset($bid_product) && !is_null($bid_product)) {
+
+            // update status to hide
+            $bid_product->end_bid =  '1';
+
+            $respond = $bid_product->save();
+    
+            if($respond){
+                return redirect()->back()->with('success', 'End Bid');
+            }else{
+                return redirect()->back()->with('fail','Error, Fail to End  Bid. Please try again');
+            }
+        
+        } else {
+            
+            return redirect()->back()->with('fail','Error, Unavailable');
+        }
+        
+    }
+
+    //delete bid product
+    public function delete_bid_product($bid_id){
+
     }
 
     //get all comment from database

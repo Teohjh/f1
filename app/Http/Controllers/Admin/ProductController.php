@@ -146,7 +146,7 @@ class ProductController extends Controller
         
         } else {
             
-            return view('admin.product.add_product')->with('fail','Errror, Unavailable');
+            return view('admin.product.add_product')->with('fail','Error, Unavailable');
         }
         
     }

@@ -37,7 +37,16 @@ return [
         'redirect' => env('FACEBOOK_REDIRECT_URL'),
         'app_id' => env('FACEBOOK_APP_ID'),
         'app_secret' => env('FACEBOOK_APP_SECRET'),
-        'redirect_admin' => env('FACEBOOK_ADMIN_REDIRECT_URL'),
+        'consumer_client_id' => env('FACEBOOK_CONSUMER_CLIENT_ID'),
+        'consumer_client_secret' => env('FACEBOOK_CONSUMER_CLIENT_SECRET'),
+        'redirect_consumer' => env('FACEBOOK_CONSUMER_REDIRECT_URL'),
     ],
+
+    'consumer_facebook' => [
+        'client_id' => env('FACEBOOK_CONSUMER_CLIENT_ID'),
+        'client_secret' => env('FACEBOOK_CONSUMER_CLIENT_SECRET'),
+        'redirect' => env('FACEBOOK_CONSUMER_REDIRECT_URL'),
+    ],
+
 
 ];

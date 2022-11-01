@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('comment_id');
             $table->integer('quantity');
             $table->decimal('total_amount',$total = 8, $places = 2);
+            $table->enum('status',[['Paid','Unpaid']])->nullable()->default('Unpaid');  
             $table->timestamps();
             $table->foreign('live_stream_id')->references('live_stream_id')->on('lives');
             $table->foreign('bid_id')->references('bid_id')->on('bid_products');

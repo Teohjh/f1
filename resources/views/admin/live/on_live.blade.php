@@ -49,9 +49,28 @@
                                 <td scope="col"></td>
                                 <td scope="col">{{$bid_products->product_sales_quantity}}</td>
                                 <td scope="col">
-                                    <a href="#" class="btn btn-success" title="click">Start Bid</a>
-                                    <a href="#" class="btn btn-secondary" title="click" style="pointer-events: none"> End Bid</a>
-                                    <a href="#" class="btn btn-dark" title="click"> <i class="fa fa-trash" aria-hidden="true"></i></a>
+                                    <!-- bid product allow to start bid or delete bid product-->
+                                    @if($bid_products->start_bid == "1" && $bid_products->end_bid == "0")
+                                    <form method="POST" action="{{url('admin/live/start_bid/'. $bid_products->bid_id)}}">
+                                        @csrf
+                                        <button class="btn btn-success" type="submit" name="start_bid">Start Bid</button>
+                                        <a href="#" class="btn btn-secondary" title="click" style="pointer-events: none"> End Bid</a>
+                                        <a href="{{url('admin/live/delete_bid/'. $bid_products->bid_id)}}" class="btn btn-dark" title="click"> <i class="fa fa-trash" aria-hidden="true"></i></a> 
+                                    </form>
+                                    <!-- bid product had start to bid -->
+                                    @elseif($bid_products->start_bid == "0" && $bid_products->end_bid == "0")
+                                    <form method="POST" action="{{url('admin/live/end_bid/'. $bid_products->bid_id)}}">
+                                        @csrf
+                                        <a href="#" class="btn btn-secondary" title="click"  style="pointer-events: none">Start Bid</a>
+                                        <button class="btn btn-danger" type="submit" name="end_bid">End Bid</button>
+                                        <a href="{{url('admin/live/delete_bid/'. $bid_products->bid_id)}}" class="btn btn-dark" title="click" style="pointer-events: none"> <i class="fa fa-trash" aria-hidden="true"></i></a> 
+                                    </form>
+                                    <!-- bid product had ready end to bid -->
+                                    @elseif($bid_products->start_bid == "0" && $bid_products->end_bid == "1")
+                                    <a href="#" class="btn btn-secondary" title="click"  style="pointer-events: none">Start Bid</a>
+                                    <a href="#" class="btn btn-secondary" title="click"style="pointer-events: none"> End Bid</a>
+                                    <a href="{{url('admin/live/delete_bid/'. $bid_products->bid_id)}}" class="btn btn-dark" title="click" style="pointer-events: none"> <i class="fa fa-trash" aria-hidden="true"></i></a> 
+                                    @endif
                                 </td>
                             </tr>
                             @endforeach
