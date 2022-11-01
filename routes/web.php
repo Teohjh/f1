@@ -58,6 +58,7 @@ Route::group(['middleware' => 'auth:admin'], function () {
     
     /*-----Admin Account -----------------*/
     Route::get('/admin/account',[App\Http\Controllers\Admin\AdminController::class, 'admin_account']);
+    Route::post('/admin/account/edit',[App\Http\Controllers\Admin\AdminController::class, 'admin_account_edit']);
     Route::get('/facebook',  [App\Http\Controllers\Admin\AdminController::class, 'redirectToFacebookProvider'])->name('facebook');
     Route::get('/facebook/callback', [App\Http\Controllers\Admin\AdminController::class, 'handleProviderFacebookCallback']);
     Route::get('/facebook_page_id', [App\Http\Controllers\Admin\FacebookController::class, 'getPage'])->name('facebook_page_id');

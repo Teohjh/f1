@@ -15,14 +15,39 @@ use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Socialite\Facades\Socialite;
 
+use function PHPUnit\Framework\isEmpty;
 
 class AdminController extends Controller
 {
+    // show admin account detail
     public function admin_account()
     {
         return view('admin.admin_account');
     }
 
+    // allow admin to edit 
+    public function admin_account_edit(Request $request){
+
+        $admin = Admin::find(Auth::user()->id);
+
+        $admin->admin_name = $request->get('admin_name');
+        //check whether the input is Not empty for admin password
+        if(!isEmpty($request->get('admin_password'))){
+            $admin->admin_password = $request->get('admin_password');
+        }
+        //save edited data to database
+        $respond = $admin->save();
+    
+        //return and show message
+        if($respond){
+            return redirect()->back()->with('success', 'You had edit successful.');
+        }else{
+            return redirect()->back()->with('fail','Error, no successful edit. Please try again');
+        }
+
+    }
+
+    //login facebook and request permission
     public function redirectToFacebookProvider()
     {
         return Socialite::driver('facebook')->scopes([
@@ -32,6 +57,7 @@ class AdminController extends Controller
         ])->redirect();
     }
 
+    //facebook callback back to web page and retrieve back data
     public function handleProviderFacebookCallback()
     {
       

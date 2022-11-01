@@ -16,12 +16,23 @@
             <div class="card">
                 <div class="card-body">
                     <h4>Admin Account</h4>
-                    <label for="admin_name">Admin Name</label>
-                    <input type="text" class="form-control" name="admin_name" value="{{ Auth::user()->admin_name }}">
+                    <form action="{{url('admin/account/edit')}}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <label for="admin_name">Admin Name</label>
+                        <input type="text" class="form-control" name="admin_name" value="{{ Auth::user()->admin_name }}">
+                        <br>
+                        <label for="admin_email">Admin Email</label>
+                        <input type="text" class="form-control" name="admin_email" value="{{ Auth::user()->admin_email }}" readonly>
+                        <br>
+                        <label for="admin_name">Admin Password</label>
+                        <input type="password" class="form-control" name="admin_password" value="">
 
-                    <label for="admin_email">Admin Email</label>
-                    <input type="text" class="form-control" name="admin_email" value="{{ Auth::user()->admin_email }}">
-
+                    <div class="mb-3">
+                        <br>
+                        <button type="submit" class="btn btn-success float-end">Edit</button>
+                    </div>
+    
+                    </form>
                 </div>
             </div>
             <br>
