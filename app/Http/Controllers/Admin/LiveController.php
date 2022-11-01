@@ -86,10 +86,9 @@ class LiveController extends Controller
     public function on_live(Request $request, $live_stream_id)
     {
         $lives = Live::find($live_stream_id);
-        $product = Product::all();
         $bid_product = BidProduct::find($live_stream_id);
 
-        return view('admin.live.on_live', compact('lives','bid_product','product'));
+        return view('admin.live.on_live', compact('lives','bid_product'));
     }
 
     public function ongoing_live($live_stream_id)

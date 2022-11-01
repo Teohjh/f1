@@ -41,12 +41,20 @@
                         <!-- list out all bid product -->
                         <tbody name="product_show" id="product_show">
                             @foreach($bid_product as $bid_products)
+                            <?php
+                            $product_code = $bid_products->product_code;
+                                $product = DB::table('products')
+                                    ->where('products.product_code','=',$product_code)
+                                    ->get();
+                            ?>
                             <tr class="align-middle" style="text-align:center">
-                                <td scope="col">{{$bid_products->product_code}}</td>
+                                <td scope="col">{{$product_code}}</td>
                                 <td scope="col">No Image</td>
                                 <td scope="col">{{$bid_products->product_name}}</td>
                                 <td scope="col">{{$bid_products->product_price}}</td>
-                                <td scope="col"></td>
+                                @foreach($product as $products)
+                                <td scope="col">{{$products->product_stock_quantity}}</td>
+                                @endforeach
                                 <td scope="col">{{$bid_products->product_sales_quantity}}</td>
                                 <td scope="col">
                                     <!-- bid product allow to start bid or delete bid product-->

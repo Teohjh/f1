@@ -108,7 +108,7 @@ Route::group(['middleware' => 'auth:admin'], function () {
     /*--------Facebook Live Stream End Bid Product------------*/
     Route::post('/admin/live/end_bid/{bid_id}', [App\Http\Controllers\Admin\FacebookController::class, 'end_bid']);
     /*--------Facebook Live Stream Delete Bid Product------------*/
-    Route::post('/admin/live/delete_bid/{bid_id}', [App\Http\Controllers\Admin\FacebookController::class, 'delete_bid_product']);
+    Route::get('/admin/live/delete_bid/{bid_id}', [App\Http\Controllers\Admin\FacebookController::class, 'delete_bid_product']);
 
     /*--------Facebook Post---------*/
     Route::resource('post', 'PostController');

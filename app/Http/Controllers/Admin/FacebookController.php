@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\BidProduct;
 use App\Models\Post;
 use App\Models\Live;
+use App\Models\Product;
 use App\Models\Comment;
 use App\Models\SalesOrder;
 use Exception;
@@ -311,31 +312,37 @@ class FacebookController extends Controller
                     $comment->comment_id = $comment_id;
                     $comment->provider_id = $consumer['id'];
                     $comment->name = $consumer['name'];
-                    $comment->comment = $key['message'];
+                    $comment->comment = $consumer_comment;
                     $comment->comment_date_time = $key['created_time'];
                     $comment->save();
 
                     //get data from bid product database
                     $bid_product = BidProduct::where('start_bid','0')->where('end_bid','0')->first();
                    
-                    //if($bid_product){
+                    if($bid_product){
 
                         $bid_code = $bid_product['product_code'];
                         $bid_product_price = $bid_product['product_price'];
+                        $bid_product_sales_qty = $bid_product['product_sales_quantity'];
 
-                    //}else{
+                    }else{
 
-                       // $bid_code = " ";
+                        $bid_code = " ";
 
-                  //  }
+                    }
 
-                    $split_comment = explode('+',$consumer_comment);
+                    /*$split_comment = explode('+',$consumer_comment);
                     
-                    $quantity = $split_comment[1];
+                    if($split_comment){
+                        $quantity = $split_comment[1];
+                    }*/
+
+                    $quantity = substr($consumer_comment,5);
                     $temp_comment = $bid_code."+".$quantity;
 
                     if($consumer_comment == $temp_comment){
 
+                        //save the sales order base on the bid product
                         $sales_order = new SalesOrder();
                         $sales_order->live_stream_id = $live_stream_id;
                         $sales_order->provider_id = $consumer['id'];
@@ -346,6 +353,24 @@ class FacebookController extends Controller
                         $total_amount = $bid_product_price * (int) $quantity;
                         $sales_order->total_amount = $total_amount;
                         $sales_order->save();
+
+                        //update bid product sales quantity
+                        $bid_product_sales_qty = $bid_product_sales_qty + (int) $quantity;
+                        DB::table('bid_products')
+                            ->where('product_code',$bid_code)
+                            ->update([
+                            'product_sales_quantity' => $bid_product_sales_qty
+                            ]);
+                        
+                        //update quantity from product when consumer bid product
+                        $product = Product::where('product_code',$bid_code)->first();
+                        $stck_qty = $product['product_stock_quantity'];
+                        $remain_stck_qty = $stck_qty - $quantity;
+                        DB::table('products')
+                            ->where('product_code',$bid_code)
+                            ->update([
+                            'product_stock_quantity' => $remain_stck_qty
+                            ]);
                     }
 
                 }
@@ -417,6 +442,9 @@ class FacebookController extends Controller
     //delete bid product
     public function delete_bid_product($bid_id){
 
+        DB::delete('DELETE FROM bid_products WHERE bid_id = ?', [$bid_id]);
+
+        return redirect()->back()->with('success', 'Success Delete Bid Product.');
     }
 
     //get all comment from database
