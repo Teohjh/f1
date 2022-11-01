@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Support\Facades\Hash;
 
 use function PHPUnit\Framework\isEmpty;
 
@@ -33,7 +34,7 @@ class AdminController extends Controller
         $admin->admin_name = $request->get('admin_name');
         //check whether the input is Not empty for admin password
         if(!isEmpty($request->get('admin_password'))){
-            $admin->admin_password = $request->get('admin_password');
+            $admin->admin_password = Hash::make($request->get('admin_password'));
         }
         //save edited data to database
         $respond = $admin->save();
