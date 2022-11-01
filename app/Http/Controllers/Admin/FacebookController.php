@@ -301,8 +301,6 @@ class FacebookController extends Controller
             if (isset($live_stream_id)){
 
                 if(Comment::where('comment_id',$comment_id)->exists()){
-
-                    
                 }
                 else{
                     $consumer_comment = $key['message'];

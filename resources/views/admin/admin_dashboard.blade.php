@@ -13,7 +13,7 @@
         <div class="card-body">
             <div class="row">
             <div class="col-xl-3 col-md-6">
-             <div class="card bg-primary text-white mb-4">
+             <div class="card text-white mb-4" style="background-color: #C5E90B">
                 <div class="card-body">Total Product
                     <h2>{{$products}}</h2>
                 </div>
@@ -25,7 +25,7 @@
             </div>
 
             <div class="col-xl-3 col-md-6">
-                <div class="card bg-warning text-white mb-4">
+                <div class="card text-white mb-4" style="background-color: #86DC3D">
                     <div class="card-body">Total Product Shown
                         <h2>{{$product_shown}}</h2>
                     </div>
@@ -37,7 +37,7 @@
             </div>
 
             <div class="col-xl-3 col-md-6">
-                <div class="card bg-success text-white mb-4">
+                <div class="card text-white mb-4" style="background-color: #378805">
                     <div class="card-body">Total Live Session
                         <h2>{{$lives}}</h2>
                     </div>
@@ -49,7 +49,7 @@
             </div>
 
             <div class="col-xl-3 col-md-6">
-                <div class="card bg-danger text-white mb-4">
+                <div class="card text-white mb-4" style="background-color: #26580F">
                     <div class="card-body">Total Consumers
                     <h2>{{$consumers}}</h2>
                     </div>
