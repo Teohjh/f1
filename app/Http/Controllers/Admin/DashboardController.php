@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\BidProduct;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 use App\Models\Product;
 use App\Models\Consumer;
 use App\Models\Live;
@@ -21,14 +22,81 @@ class DashboardController extends Controller
         $consumers = Consumer::count();
         $product_shown = Product::where('product_status','Shown')->count();
 
-        /*$bid_product = BidProduct::select(DB::raw("COUNT(*) as count"), DB::raw("MONTHNAME(created_at) as month_name"))
-                    ->whereYear('created_at', date('Y'))
-                    ->groupBy(DB::raw("Month(created_at)"))
-                    ->pluck('count', 'month_name');
- 
-        $labels = $bid_product->keys();
-        $data = $bid_product->values();*/
+        //function for get top 5 member for this month
+        $sales_orders = $this->top_member_dashboard();
+        $top_member_labels = array_keys($sales_orders);
+        $top_member_data = array_values($sales_orders);
+        // Generate random colours for the sales order data
+        for ($i=0; $i<=count($sales_orders); $i++) {
+            $sales_orders_colours[] = '#' . substr(str_shuffle('ABCDEF0123456789'), 0, 6);
+        }
 
-        return view('admin.admin_dashboard', compact('products','lives','product_shown','consumers','posts'));
+        //function for get top 5 selling product
+        $sell_product = $this->top_selling_product_dashboard();
+        $sell_product_labels = array_keys($sell_product);
+        $sell_product_data = array_values($sell_product);
+        // Generate random colours for the sell product data
+        for ($i=0; $i<=count($sell_product); $i++) {
+            $sell_product_colours[] = '#' . substr(str_shuffle('ABCDEF0123456789'), 0, 6);
+        }
+
+        //function for get recent sales
+        $recent_sales = $this->recent_sales_dashboard();
+        $recent_salest_labels = array_keys($recent_sales);
+        $recent_sales_data = array_values($recent_sales);
+        // Generate random colours for the sell product data
+        for ($i=0; $i<=count($recent_sales); $i++) {
+            $recent_sales_colours[] = '#' . substr(str_shuffle('ABCDEF0123456789'), 0, 6);
+        }
+
+        return view('admin.admin_dashboard', compact('products','lives','product_shown',
+        'consumers','posts','top_member_labels','top_member_data','sales_orders_colours','sell_product_labels',
+        'sell_product_data','sell_product_colours','recent_salest_labels','recent_sales_data','recent_sales_colours'
+        ));
+    }
+
+    //get top 5 higher purchase consumer from database
+    public function top_member_dashboard(){
+
+        $now = Carbon::now();
+        $this_month = $now->month;
+
+        $sales_orders = DB::table('sales_orders')
+                  ->select('name', DB::raw('sum(total_amount) as total'))
+                  ->whereMonth('created_at', $this_month)
+                  ->groupBy('name')
+                  ->pluck('total', 'name')->all();
+
+        return $sales_orders;
+    }
+
+    //get top 5 selling product from database
+    public function top_selling_product_dashboard(){
+
+        $now = Carbon::now();
+        $this_month = $now->month;
+
+        $sales_orders = DB::table('bid_products')
+                  ->select('product_name', DB::raw('sum(product_sales_quantity) as total'))
+                  ->whereMonth('created_at', $this_month)
+                  ->groupBy('product_name')
+                  ->pluck('total', 'product_name')->all();
+                  
+        return $sales_orders;
+    }
+
+    //get recent sales for last 7 days from database
+    public function recent_sales_dashboard(){
+
+        $now = Carbon::now();
+        $this_month = $now->month;
+
+        $recent_sales = DB::table('bid_products')
+                  ->select('product_name', DB::raw('sum(product_sales_quantity) as total'))
+                  ->whereMonth('created_at', $this_month)
+                  ->groupBy('product_name')
+                  ->pluck('total', 'product_name')->all();
+                  
+        return $recent_sales;
     }
 }

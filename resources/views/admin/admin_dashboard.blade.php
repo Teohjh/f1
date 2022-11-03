@@ -60,6 +60,23 @@
                 </div>
             </div>
             </div>
+            <div class="row">
+                 <div class="mb-4">
+                    <div class="card-body"><canvas id="recentSales" height="100px"></canvas></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-6">
+                    <div class="card mb-4">
+                        <div class="card-body"><canvas id="topSalesProduct" height="50px"></canvas></div>
+                    </div>
+                </div>
+                <div class="col-xl-6">
+                    <div class="card mb-4">
+                        <div class="card-body"><canvas id="topMember" height="150px"></canvas></div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <div class="card mt-4">
@@ -70,4 +87,8 @@
 </div>
 
 @include('admin.dashboard.bar_chart')
+@include('admin.dashboard.top_member_dashboard')
+@include('admin.dashboard.top_selling_product')
+@include('admin.dashboard.recent_sales')
+
 @endsection
