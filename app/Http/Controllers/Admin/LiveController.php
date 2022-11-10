@@ -63,7 +63,8 @@ class LiveController extends Controller
                     'product_name'=> $products->product_name,
                     'product_sales_quantity'=>0,
                     'product_description'=>$products->product_description,
-                    'product_price' =>$products->product_price,   
+                    'product_price' =>$products->product_price,  
+                    'product_image' =>$products->product_image,  
                      ],
                 );
             }

@@ -49,7 +49,9 @@
                             ?>
                             <tr class="align-middle" style="text-align:center">
                                 <td scope="col">{{$product_code}}</td>
-                                <td scope="col">No Image</td>
+                                <td scope="col">
+                                    <img src=" {{asset('assets/image/product/' . $bid_products->product_image)}}" width="110px" height="100px">
+                                </td>
                                 <td scope="col">{{$bid_products->product_name}}</td>
                                 <td scope="col">{{$bid_products->product_price}}</td>
                                 @foreach($product as $products)

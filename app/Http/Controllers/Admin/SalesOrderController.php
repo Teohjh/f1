@@ -20,7 +20,7 @@ class SalesOrderController extends Controller
             ->join('bid_products', 'sales_orders.bid_id', '=', 'bid_products.bid_id')
             ->join('comments', 'sales_orders.comment_id', '=', 'comments.comment_id')
             ->select('sales_orders.*', 'bid_products.product_name', 
-            'bid_products.product_code', 'comments.comment')
+            'bid_products.product_code', 'bid_products.product_image', 'comments.comment')
             ->get();
 
         return view('admin.sales_order.sales_list', compact('sales_order'));

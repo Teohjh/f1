@@ -324,6 +324,7 @@ class FacebookController extends Controller
                         $bid_code = $bid_product['product_code'];
                         $bid_product_price = $bid_product['product_price'];
                         $bid_product_sales_qty = $bid_product['product_sales_quantity'];
+                        $bid_id = $bid_product['bid_id'];
 
                     }else{
 
@@ -331,13 +332,8 @@ class FacebookController extends Controller
 
                     }
 
-                    /*$split_comment = explode('+',$consumer_comment);
-                    
-                    if($split_comment){
-                        $quantity = $split_comment[1];
-                    }*/
-
-                    $quantity = substr($consumer_comment,5);
+                    $bid_code_length = strlen($bid_code)+1;
+                    $quantity = substr($consumer_comment,$bid_code_length);
                     $temp_comment = $bid_code."+".$quantity;
 
                     if($consumer_comment == $temp_comment){
@@ -347,7 +343,7 @@ class FacebookController extends Controller
                         $sales_order->live_stream_id = $live_stream_id;
                         $sales_order->provider_id = $consumer['id'];
                         $sales_order->name = $consumer['name'];
-                        $sales_order->bid_id = 1;
+                        $sales_order->bid_id = $bid_id;
                         $sales_order->comment_id = $comment_id;
                         $sales_order->quantity = (int) $quantity;
                         $total_amount = $bid_product_price * (int) $quantity;
@@ -371,7 +367,17 @@ class FacebookController extends Controller
                             ->update([
                             'product_stock_quantity' => $remain_stck_qty
                             ]);
-                    }
+
+                            if($remain_stck_qty == 0){
+                                DB::table('products')
+                                ->where('product_code',$bid_code)
+                                ->update([
+                                'product_status' => "Hide"
+                                ]);
+                                $this->end_bid($bid_product['bid_id']);
+                            }
+    
+                    }   
 
                 }
             }

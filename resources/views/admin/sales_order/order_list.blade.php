@@ -22,16 +22,39 @@
         <thead>
              <tr class="align-middle" style="text-align:center">
                 <th scope="col">Order ID</th>
-                <th scope="col">Product Image</th>
-                <th scope="col">Product Name</th>
-                <th scope="col">Customer Name</th>
-                <th scope="col">Product Quantity</th>
-                <th scope="col">Amount (RM)</th>
+                <th scope="col">Consumer</th>
+                <th scope="col">Total Amount (RM)</th>
+                <th scope="col">Status</th>
                 <th scope="col">Action</th>
-            </tr>
-           
+                </tr>
         </thead>
-        <tbody>
+        <!-- list out all order -->
+        <tbody name="order_show" id="order_show">
+            @empty($order_list)
+              <p class="text-warning"> No Order </p>  
+            @endempty
+
+            @foreach($order_list as $order)
+            <tr class="align-middle" style="text-align:center">
+                <td scope="col">{{$order->order_id}}</td>
+                <td scope="col">
+                    <?php
+                        $consumer = DB::table('sales_orders')
+                        ->where('sales_orders.provider_id','=',$order->provider_id)
+                        ->get();
+                        foreach($consumer as $consumer){
+                            $consumer_name = $consumer->name;
+                        }
+                    ?>
+                        {{$consumer_name}}
+                </td>
+                <td scope="col">{{$order->total_order_amount}}</td>
+                <td scope="col">{{$order->order_status}}</td>
+                <td scope="col">
+                    <a href="{{url('#')}}" class="btn btn-info">Detail</a>
+                </td>
+            </tr>
+            @endforeach
         </tbody>
         </table>
 

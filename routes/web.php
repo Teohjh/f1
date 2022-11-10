@@ -82,12 +82,14 @@ Route::group(['middleware' => 'auth:admin'], function () {
 
     /*------Order------*/
     Route::get('/admin/sales/list', [App\Http\Controllers\Admin\SalesOrderController::class, 'sales_order_list']);
-    Route::get('/admin/order/list', function () {
-        return view('admin.sales_order.order_list');
-    });
-    Route::get('/admin/order/shipping', function () {
-        return view('admin.sales_order.order_shipping_list');
-    });
+    Route::get('/admin/order/list',[App\Http\Controllers\Admin\OrderController::class, 'order_list']);
+    Route::get('/admin/order/shipping',[App\Http\Controllers\Admin\OrderController::class, 'shipping_list']);
+
+    /*---------Admin assist consumer to checkout ------------*/
+    Route::post('/admin/sales/turn_order', [App\Http\Controllers\Admin\OrderController::class, 'turn_order'])->name('turn_order');
+    Route::get('/admin/sales/checkout/{order_id}', [App\Http\Controllers\Admin\OrderController::class, 'order_checkout']);
+    Route::post('/admin/sales/checkout/save/', [App\Http\Controllers\Admin\OrderController::class, 'save_checkout'])->name('save_checkout');
+    
 
     /*------Live Session------*/
     Route::get('/admin/live/setup',[App\Http\Controllers\Admin\LiveController::class, 'live_setup'])->name('live_setup');
@@ -128,6 +130,7 @@ Route::group(['middleware' => 'auth:admin'], function () {
     /*---------Consumer List----------*/
     Route::get('/admin/consumer_list', [App\Http\Controllers\Consumer\ConsumerController::class, 'consumer_list']);
     Route::get('/admin/consumer/search', [App\Http\Controllers\Consumer\ConsumerController::class, 'consumer_search']);
+
 
 });
 

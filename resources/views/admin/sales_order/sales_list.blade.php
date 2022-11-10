@@ -17,6 +17,12 @@
                 </form>
             </div>
         </div>
+        <form action="{{ route('turn_order') }}" method="POST" enctype="multipart/form-data">
+        @csrf
+        <div class="card-body">
+            <button type="submit" class="btn btn-success float-end">Turn Order</button>
+        </div>
+        
         <div class="card-body">
         
         <table id="datatable" class="table table-hover datatable">
@@ -30,7 +36,7 @@
                 <th scope="col">Comment</th>
                 <th scope="col">Quantity</th>
                 <th scope="col">Amount (RM) </th>
-                <th scope="col">Status</th>
+                <th scope="col">Status </th>
             </tr>
         </thead>
         <!-- list out all bid product -->
@@ -40,11 +46,18 @@
                 $bid_id = $sales_orders->bid_id;
             ?>
             <tr class="align-middle" style="text-align:center">
-                <td scope="col"></td>
+                <td scope="col">
+                    @if ($sales_orders->status == 'Unpaid')
+                        <input type="checkbox" name="sales_order_select[]" value="{{ $sales_orders->sales_order_id }}">
+                    @endif
+                    @if ($sales_orders->status == 'Paid')
+                        <input type="checkbox" disabled >
+                    @endif
+                </td>
                 <td scope="col">{{$sales_orders->live_stream_id}}</td>
                 <td scope="col">{{$sales_orders->product_code}}</td>
                 <td scope="col">
-                    <p style="color: red">No Image</p>
+                    <img src=" {{asset('assets/image/product/' . $sales_orders->product_image)}}" width="110px" height="100px"/><br>
                     {{$sales_orders->product_name}}
                 </td>
                 <td scope="col">{{$sales_orders->name}}</td>
@@ -54,14 +67,15 @@
                 <?php
                     $status = $sales_orders->status;
                 ?>
-                @if($status = "Unpaid")
-                <td scope="col"><p style="color:red;">{{$status}}</p></td>
-                @elseif($status = "Paid")
-                <td scope="col"><p style="color:green;">{{$status}}</p></td>
+                @if($status == "Unpaid")
+                <td scope="col"><p style="color:red;">{{$sales_orders->status}}</p></td>
+                @elseif($status == "Paid")
+                <td scope="col"><p style="color:green;">{{$sales_orders->status}}</p></td>
                 @endif
             </tr>
             @endforeach
         </tbody>
+        </form>
         </table>
 
         </div>

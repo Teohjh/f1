@@ -38,7 +38,13 @@
                 <td scope="col">{{$bid_products['live_stream_id']}}</td>
                 <td scope="col">{{$bid_products['product_code']}}</td>
                 <td scope="col">{{$bid_products['product_name']}}</td>
-                <td scope="col">No Image</td>
+                <td scope="col">
+                    <?php
+                        $image = $bid_products['product_image'];
+                        
+                    ?>
+                    <img src=" {{asset('assets/image/product/' . $image)}}" width="110px" height="100px">
+                </td>
                 <td scope="col">{{$bid_products['product_description']}}</td>
                 <td scope="col">{{$bid_products['product_sales_quantity']}}</td>
                 <td scope="col">{{$bid_products['product_price']}}</td>
