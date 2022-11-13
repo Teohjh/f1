@@ -13,6 +13,8 @@ use App\Models\SalesOrder;
 use App\Models\ShippingOrder;
 use App\Models\Payment;
 
+use function PHPUnit\Framework\isEmpty;
+
 class OrderController extends Controller
 {
     //return to checkout page
@@ -32,6 +34,11 @@ class OrderController extends Controller
 
     //select item from sales order page to request to checkout 
     public function turn_order(Request $request){
+
+        //if there have no any sales order had choose
+        if(!($request->sales_order_select)){
+            return redirect()->back()->with('fail','Please select sales order.');
+        }
 
         $order = new Order();
         $total_order_amount = 0;
@@ -85,6 +92,19 @@ class OrderController extends Controller
     public function save_checkout(Request $request){
 
         $order = Order::find($request->order_id);
+
+        //validate for input data that require
+        $request->validate([
+            'order_id' => 'required',
+            'fname' => 'required',
+            'lname' => 'required',
+            'contact_no' => 'required',
+            'address'  => 'required',
+            'city' => 'required',
+            'state' => 'required',
+            'postcode' => 'required',
+            'shipping_method' => 'required'
+        ]);
 
         $shippping_order = new ShippingOrder();
         $shippping_order->order_id = $request->order_id;

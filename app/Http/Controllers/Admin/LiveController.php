@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 
+use function PHPUnit\Framework\isEmpty;
+
 class LiveController extends Controller
 {
     
@@ -50,6 +52,11 @@ class LiveController extends Controller
 
     public function save_bid_product(Request $request)
     {
+
+        //if the live id didn't retrieve from Facebook
+        if(!($request->live_stream_id)){
+            return redirect()->back()->with('fail','Please retrieve Live ID.');
+        }
 
         foreach($request->product_select as $product_select){
             //$product = DB::table('products')

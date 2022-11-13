@@ -25,7 +25,7 @@ class AdminRegisterController extends Controller
     {
             $request->validate([
                 'admin_name' => 'required|unique:admins',
-                'admin_email' => 'required|email',
+                'admin_email' => 'required|email|unique:admins',
                 'admin_password' => 'required|min:8'
             ]);
             $admin = new Admin();

@@ -50,7 +50,7 @@
                 <label for="product_code"> Product Code </label>
                     <input type="text" class="form-control" placeholder="Enter Product Code"
                          name="product_code" value="{{old('product_code')}}">
-                    <span class="text-danger">@error('product_name') {{$message}} @enderror </span>
+                    <span class="text-danger">@error('product_code') {{$message}} @enderror </span>
                 </div>
 
                 <div class="mb-3">

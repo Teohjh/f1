@@ -38,6 +38,16 @@ class ProductController extends Controller
             'product_price' => 'required'
         ]);
 
+        //if the stock quantity input wrongly
+        if(! is_numeric($request->product_stock_quantity)){
+            return redirect()->back()->with('fail','Input wrong, Please enter correct stock quantity.');
+        }
+
+        //if the price input wrongly
+        if(! is_numeric($request->product_price)){
+            return redirect()->back()->with('fail','Input wrong, Please enter correct price.');
+        }
+
         //save image into public folder
         if($request->hasFile('product_image')){
             $product_image = time().'-'.$request->product_image->getClientOriginalName();
@@ -117,8 +127,16 @@ class ProductController extends Controller
     //search product within product name
     public function product_search()
     {
+
+        
         //base on the input data to find the data and show in table
         $search_text = $_GET['query_product_name'];
+
+        //if the live id didn't retrieve from Facebook
+        if(!($search_text)){
+            return redirect()->back()->with('fail','Please enter product name for search.');
+        }
+
         $products = Product::where('product_name', 'LIKE', '%'.$search_text. '%')->get();
 
         //pass data and return to search product list

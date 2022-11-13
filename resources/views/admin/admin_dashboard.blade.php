@@ -62,7 +62,7 @@
             </div>
             <div class="row">
                  <div class="mb-4">
-                    <div class="card-body"><canvas id="recentSales" height="100px"></canvas></div>
+                    <div class="card-body"><canvas id="recentSales" height="50px"></canvas></div>
                 </div>
             </div>
             <div class="row">

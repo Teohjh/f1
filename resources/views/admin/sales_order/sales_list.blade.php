@@ -7,6 +7,20 @@
 
 <!-- Page content-->
 <div class="container-fluid px-4">
+     <!--Message shown when sales order didn't select after click  'Turn Order' -->
+     @if(session()->has('fail'))
+     <div class="card mt-4" id="message_show">
+         <div class="card-body"> 
+             <div class="alert alert-danger">
+                 {{ session()->get('fail') }}
+                 <button id="close" type="button" class="close float-right" data-dismiss="alert" aria-label="Close" style="float: right">
+                     <span aria-hidden="true" class="float-right">&times;</span>
+                 </button>
+             </div>
+         </div>
+     </div>
+     @endif
+
     <div class="card mt-4">
         <div class="card-header">
             <h3 class="">Sales Order List</h3>
@@ -85,3 +99,18 @@
 
 
 @endsection
+
+@push('scripts')
+<script>
+    
+    $( document ).ready(function() {
+       
+        //close the message when the button with id="close" is clicked
+        $("#close").on("click", function (e) {
+            e.preventDefault();
+            $("#message_show").fadeOut(1000);
+        });
+        
+    });
+ </script>
+@endpush

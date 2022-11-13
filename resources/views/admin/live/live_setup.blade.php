@@ -84,6 +84,20 @@
 
 <!-- Page content-->
 <div class="container-fluid px-4">
+    <!--Message shown when Live ID didn't retrieve from Facebook-->
+    @if(session()->has('fail'))
+    <div class="card mt-4" id="message_show">
+        <div class="card-body"> 
+            <div class="alert alert-danger">
+                {{ session()->get('fail') }}
+                <button id="close" type="button" class="close float-right" data-dismiss="alert" aria-label="Close" style="float: right">
+                    <span aria-hidden="true" class="float-right">&times;</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    @endif
+
     <div class="card mt-4">
         <div class="card-header">
             <h3 class=""><i class="fa fa-podcast" style="color:red"></i>  Live Setup</h3>
