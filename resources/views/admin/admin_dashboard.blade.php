@@ -68,12 +68,14 @@
             <div class="row">
                 <div class="col-xl-6">
                     <div class="card mb-4">
+                        <br>
+                        <p class="text-center">Top Selling Product in This Month</p>
                         <div class="card-body"><canvas id="topSalesProduct" height="240px"></canvas></div>
                     </div>
                 </div>
                 <div class="col-xl-6">
                     <div class="card mb-4">
-                        <div class="card-body"><canvas id="topMember" height="150px"></canvas></div>
+                        <div class="card-body"><canvas id="topMember" height="190px"></canvas></div>
                     </div>
                 </div>
             </div>

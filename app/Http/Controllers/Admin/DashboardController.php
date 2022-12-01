@@ -85,9 +85,10 @@ class DashboardController extends Controller
         $now = Carbon::now();
         $this_month = $now->month;
 
-        $sales_orders = DB::table('bid_products')
-                  ->select('product_name', DB::raw('sum(product_sales_quantity) as total'))
-                  ->whereMonth('created_at', $this_month)
+        $sales_orders = DB::table('sales_orders')
+                  ->join('bid_products', 'sales_orders.bid_id', '=', 'bid_products.bid_id')
+                  ->select('bid_products.product_name', DB::raw('sum(bid_products.product_sales_quantity) as total'))
+                  ->whereMonth('sales_orders.created_at', $this_month)
                   ->groupBy('product_name')
                   ->pluck('total', 'product_name')->all();
                   
