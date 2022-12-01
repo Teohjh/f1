@@ -51,7 +51,7 @@
                 <td scope="col">{{$order->total_order_amount}}</td>
                 <td scope="col">{{$order->order_status}}</td>
                 <td scope="col">
-                    <a href="{{url('#')}}" class="btn btn-info">Detail</a>
+                    <a href="{{url('admin/order/view/'. $order->order_id)}}" class="btn btn-info">Detail</a>
                 </td>
             </tr>
             @endforeach

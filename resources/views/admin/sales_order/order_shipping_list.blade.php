@@ -27,7 +27,7 @@
                 <th scope="col">Shipping Method</th>
                 <th scope="col">Shipping Status</th>
                 <th scope="col">Total Amount (RM)</th>
-                <th scope="col">Action</th>
+                <th scope="col" colspan="2">Action</th>
             </tr>
         </thead>
         <!-- list out all shipping order -->
@@ -40,7 +40,18 @@
             <tr class="align-middle" style="text-align:center">
                 <td scope="col"></td>
                 <td scope="col">{{$shipping_lists->order_id}}</td>
-                <td scope="col">{{$shipping_lists->tracking_no}}</td>
+                <!--<td scope="col">{{$shipping_lists->tracking_no}}</td>-->
+                <td scope="col">
+                <a onclick="linkTrack(this.innerText)">ERC786093607MY</a>
+                <script src="//www.tracking.my/track-button.js"></script>
+                <script>
+                function linkTrack(num) {
+                    TrackButton.track({
+                    tracking_no: num
+                    });
+                }
+                </script>
+                </td>
                 <td scope="col">
                     <?php
                         $consumer = DB::table('sales_orders')
@@ -57,7 +68,24 @@
                 <td scope="col">{{$shipping_lists->shipping_status}}</td>
                 <td scope="col">{{$shipping_lists->total_order_amount}}</td>
                 <td scope="col">
-                    <a href="{{url('#')}}" class="btn btn-warning">Detail</a>
+                    @if ($shipping_lists->shipping_status == 'Processing')
+                    <form method="POST" action="{{url('admin/order/shipping/update_packed/'. $shipping_lists->shipping_id)}}">
+                        @csrf
+                        <button class="btn btn-success" type="submit" name="shipping_status" value="Packed">Packed</button>
+                    </form>
+                    @endif
+                    @if ($shipping_lists->shipping_status == 'Packed')
+                    <form method="POST" action="{{url('admin/order/shipping/update_received/'. $shipping_lists->shipping_id)}}">
+                        @csrf
+                        <button class="btn btn-warning" type="submit" name="shipping_status" value="Received">Received</button>
+                    </form>
+                    @endif
+                    @if ($shipping_lists->shipping_status == 'Received')
+                        <p class="text-primary text-bold"> Received </p>
+                    @endif
+                </td>
+                <td scope="col">
+                    <a href="{{url('admin/order/view/'. $shipping_lists->order_id)}}" class="btn btn-info">Detail</a>
                 </td>
             </tr>
             @endforeach

@@ -17,7 +17,7 @@
     };
 
     const recent_sales_config = {
-      type: 'bar',
+      type: 'line',
       data: recent_sales,
       options: {}
     };

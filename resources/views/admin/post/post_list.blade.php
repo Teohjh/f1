@@ -87,7 +87,7 @@
         <div class="card-header">
             <h4 class="">Facebook Post</h4>
             <form class="input-group mb-3" type="get" action="{{url('#')}}">
-                <input class="form-control mr-sm-2" name="query" type="serach" placeholder="Search For Live ID"/>
+                <input class="form-control mr-sm-2" name="query" type="serach" placeholder="Search For Post ID"/>
                 <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Search</button>
             </form>
 

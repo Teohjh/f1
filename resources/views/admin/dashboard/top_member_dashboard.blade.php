@@ -1,8 +1,6 @@
 
 <script type="text/javascript">
   
-    
-
     var top_member_labels =  {{ Js::from($top_member_labels) }};
     var top_member_data =  {{ Js::from($top_member_data) }};
     var sales_orders_colours =  {{ Js::from($sales_orders_colours) }};

@@ -15,7 +15,9 @@
                 <br>
             </div>
             <div class="fb-video" data-href=""  
-                data-allowfullscreen="true" data-width="500"></div>
+                data-allowfullscreen="true" data-width="500">
+                {{$lives->embed_html}}
+            </div>
         </div>
 
         <br>

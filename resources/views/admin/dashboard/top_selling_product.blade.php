@@ -19,7 +19,9 @@
     const top_sales_product_config = {
       type: 'pie',
       data: top_sales_product,
-      options: {}
+      options: {
+        responsive: false,
+      }
     };
 
     const topSalesProduct = new Chart(

@@ -68,7 +68,7 @@
             <div class="row">
                 <div class="col-xl-6">
                     <div class="card mb-4">
-                        <div class="card-body"><canvas id="topSalesProduct" height="50px"></canvas></div>
+                        <div class="card-body"><canvas id="topSalesProduct" height="240px"></canvas></div>
                     </div>
                 </div>
                 <div class="col-xl-6">
@@ -79,11 +79,11 @@
             </div>
         </div>
     </div>
-    <div class="card mt-4">
-        <div class="card-body">
-            <canvas id="myChart" height="100px"></canvas>
-        </div>
-    </div>
+    <div class="row">
+        <div class="mb-4">
+           <div class="card-body"><canvas id="salesActivity" height="50px"></canvas></div>
+       </div>
+   </div>
 </div>
 
 @include('admin.dashboard.bar_chart')

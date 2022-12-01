@@ -83,7 +83,14 @@ Route::group(['middleware' => 'auth:admin'], function () {
     /*------Order------*/
     Route::get('/admin/sales/list', [App\Http\Controllers\Admin\SalesOrderController::class, 'sales_order_list']);
     Route::get('/admin/order/list',[App\Http\Controllers\Admin\OrderController::class, 'order_list']);
+    Route::get('/admin/order/view/{order_id}', [App\Http\Controllers\Admin\OrderController::class, 'view_order'])->name('view_order');
+    Route::post('/admin/order/view/update', [App\Http\Controllers\Admin\OrderController::class, 'update_order'])->name('update_order');
+    Route::get('/admin/order/search', [App\Http\Controllers\Admin\OrderController::class, 'order_search']);
+
+    /*--------- Order Shipping --------------*/
     Route::get('/admin/order/shipping',[App\Http\Controllers\Admin\OrderController::class, 'shipping_list']);
+    Route::post('/admin/order/shipping/update_packed/{shipping_id}',[App\Http\Controllers\Admin\OrderController::class, 'update_status_packed']);
+    Route::post('/admin/order/shipping/update_received/{shipping_id}',[App\Http\Controllers\Admin\OrderController::class, 'update_status_received']);
 
     /*---------Admin assist consumer to checkout ------------*/
     Route::post('/admin/sales/turn_order', [App\Http\Controllers\Admin\OrderController::class, 'turn_order'])->name('turn_order');

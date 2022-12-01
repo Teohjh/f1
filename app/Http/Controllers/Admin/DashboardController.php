@@ -49,10 +49,19 @@ class DashboardController extends Controller
             $recent_sales_colours[] = '#' . substr(str_shuffle('ABCDEF0123456789'), 0, 6);
         }
 
+        //function for get sales activity
+        $sales_activity = $this->sales_activity_dashboard();
+        $sales_activity_labels = array_keys($sales_activity);
+        $sales_activity_data = array_values($sales_activity);
+        // Generate random colours for the sell product data
+        for ($i=0; $i<=count($sales_activity); $i++) {
+            $sales_activity_colours[] = '#' . substr(str_shuffle('ABCDEF0123456789'), 0, 6);
+        }
+
         return view('admin.admin_dashboard', compact('products','lives','product_shown',
         'consumers','posts','top_member_labels','top_member_data','sales_orders_colours','sell_product_labels',
-        'sell_product_data','sell_product_colours','recent_salest_labels','recent_sales_data','recent_sales_colours'
-        ));
+        'sell_product_data','sell_product_colours','recent_salest_labels','recent_sales_data','recent_sales_colours',
+        'sales_activity_labels','sales_activity_data','sales_activity_colours'));
     }
 
     //get top 5 higher purchase consumer from database
@@ -88,15 +97,29 @@ class DashboardController extends Controller
     //get recent sales for last 7 days from database
     public function recent_sales_dashboard(){
 
-        $now = Carbon::now();
+        $now = Carbon::today();
         $this_month = $now->month;
+        $recent_7days = $now->subDays(7);    
 
         $recent_sales = DB::table('bid_products')
                   ->select('product_name', DB::raw('sum(product_sales_quantity) as total'))
-                  ->whereMonth('created_at', $this_month)
+                  //->whereMonth('created_at', $this_month)
+                  //->where('created_at',$now)
+                  ->whereDate('created_at','>=',$recent_7days)
                   ->groupBy('product_name')
                   ->pluck('total', 'product_name')->all();
                   
         return $recent_sales;
+    }
+
+    //get sales activity from database
+    public function sales_activity_dashboard(){
+
+        $sales_activity = DB::table('bid_products')
+                  ->select('live_stream_id', DB::raw('sum(product_sales_quantity*product_price) as total'))
+                  ->groupBy('live_stream_id')
+                  ->pluck('total', 'live_stream_id')->all();
+                  
+        return $sales_activity;
     }
 }

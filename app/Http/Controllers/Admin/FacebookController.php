@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Socialite\Facades\Socialite;
+use Symfony\Component\Console\Input\Input;
 
 class FacebookController extends Controller
 {
@@ -335,47 +336,102 @@ class FacebookController extends Controller
                     $bid_code_length = strlen($bid_code)+1;
                     $quantity = substr($consumer_comment,$bid_code_length);
                     $temp_comment = $bid_code."+".$quantity;
+                    $comment_bid_code = substr($consumer_comment,0,$bid_code_length-1);
 
                     if($consumer_comment == $temp_comment){
 
-                        //save the sales order base on the bid product
-                        $sales_order = new SalesOrder();
-                        $sales_order->live_stream_id = $live_stream_id;
-                        $sales_order->provider_id = $consumer['id'];
-                        $sales_order->name = $consumer['name'];
-                        $sales_order->bid_id = $bid_id;
-                        $sales_order->comment_id = $comment_id;
-                        $sales_order->quantity = (int) $quantity;
-                        $total_amount = $bid_product_price * (int) $quantity;
-                        $sales_order->total_amount = $total_amount;
-                        $sales_order->save();
-
-                        //update bid product sales quantity
-                        $bid_product_sales_qty = $bid_product_sales_qty + (int) $quantity;
-                        DB::table('bid_products')
-                            ->where('product_code',$bid_code)
-                            ->update([
-                            'product_sales_quantity' => $bid_product_sales_qty
-                            ]);
+                        $comment_order = SalesOrder::where('bid_id', '=', $bid_product['bid_id'])->exists();
+                       $comment_find = SalesOrder::where('name', '=', $consumer['name'])->where('bid_id', '=', $bid_product['bid_id'])->first();
                         
-                        //update quantity from product when consumer bid product
-                        $product = Product::where('product_code',$bid_code)->first();
-                        $stck_qty = $product['product_stock_quantity'];
-                        $remain_stck_qty = $stck_qty - $quantity;
-                        DB::table('products')
-                            ->where('product_code',$bid_code)
-                            ->update([
-                            'product_stock_quantity' => $remain_stck_qty
-                            ]);
+                        $comment_consumer = SalesOrder::where('name', '=', $consumer['name'])->exists();
 
-                            if($remain_stck_qty == 0){
-                                DB::table('products')
+
+                        if ($comment_order && $comment_consumer) {
+                            // Comment for order found
+                            
+                            //find the quantity that add more
+                            $old_order_quantity = $comment_find['quantity'];
+
+                            $remaining_order_quantity = (int) $quantity - $old_order_quantity;
+                        
+                            //update the quantity
+                            DB::table('sales_orders')
+                                ->where('bid_id',$bid_product['bid_id'])
+                                ->update([
+                                'quantity' => (int) $quantity,
+                                'total_amount' => $bid_product_price * (int) $quantity,
+                                'comment_id' => $comment_id,
+                                ]);
+
+                            //update bid product sales quantity
+                            $bid_product_sales_qty = $bid_product_sales_qty + (int) $remaining_order_quantity;
+                            DB::table('bid_products')
                                 ->where('product_code',$bid_code)
                                 ->update([
-                                'product_status' => "Hide"
+                                'product_sales_quantity' => $bid_product_sales_qty,
+                                
                                 ]);
-                                $this->end_bid($bid_product['bid_id']);
+
+                             //update quantity from product when consumer bid product
+                            $product = Product::where('product_code',$bid_code)->first();
+                            $stck_qty = $product['product_stock_quantity'];
+                            $remain_stck_qty = $stck_qty - $remaining_order_quantity;
+                            DB::table('products')
+                                ->where('product_code',$bid_code)
+                                ->update([
+                                'product_stock_quantity' => $remain_stck_qty
+                                ]);
+
+                            if($remain_stck_qty == 0){
+                                 DB::table('products')
+                                ->where('product_code',$bid_code)
+                                 ->update([
+                                  'product_status' => "Hide"
+                                  ]);
+                               $this->end_bid($bid_product['bid_id']);
                             }
+
+                         }else{
+                            //save the sales order base on the bid product
+                            $sales_order = new SalesOrder();
+                            $sales_order->live_stream_id = $live_stream_id;
+                            $sales_order->provider_id = $consumer['id'];
+                            $sales_order->name = $consumer['name'];
+                            $sales_order->bid_id = $bid_id;
+                            $sales_order->comment_id = $comment_id;
+                            $sales_order->quantity = (int) $quantity;
+                            $total_amount = $bid_product_price * (int) $quantity;
+                            $sales_order->total_amount = $total_amount;
+                            $sales_order->save();
+
+                            //update bid product sales quantity
+                            $bid_product_sales_qty = $bid_product_sales_qty + (int) $quantity;
+                            DB::table('bid_products')
+                                ->where('product_code',$bid_code)
+                                ->update([
+                                'product_sales_quantity' => $bid_product_sales_qty
+                                ]);
+
+                             //update quantity from product when consumer bid product
+                            $product = Product::where('product_code',$bid_code)->first();
+                            $stck_qty = $product['product_stock_quantity'];
+                            $remain_stck_qty = $stck_qty - $quantity;
+                            DB::table('products')
+                                ->where('product_code',$bid_code)
+                                ->update([
+                                'product_stock_quantity' => $remain_stck_qty
+                                ]);
+
+                            if($remain_stck_qty == 0){
+                                 DB::table('products')
+                                ->where('product_code',$bid_code)
+                                 ->update([
+                                  'product_status' => "Hide"
+                                  ]);
+                               $this->end_bid($bid_product['bid_id']);
+                            }
+                        }
+                            
     
                     }   
 

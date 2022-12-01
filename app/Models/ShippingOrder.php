@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class ShippingOrder extends Model
 {
     use HasFactory;
+    protected $primaryKey = 'shipping_id';
 }
